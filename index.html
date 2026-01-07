@@ -8,21 +8,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            /* Meesho Pink Brand Colors */
             --meesho-pink: #ff477e;
-            --meesho-pink-light: #ff85a2;
             --meesho-pink-deep: #f72585;
             
-            --primary-grad: linear-gradient(135deg, #ff477e 0%, #ff85a2 100%);
-            --secondary-grad: linear-gradient(135deg, #fff0f3 0%, #f72585 100%);
-            --bg-grad: linear-gradient(135deg, #fff0f3 0%, #ffffff 100%);
-            --success-grad: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-            --danger-grad: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
-            --input-grad: linear-gradient(180deg, #ffffff 0%, #fff0f3 100%);
+            /* Google Brand Colors */
+            --google-green-bg: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            --google-red-bg: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            --google-green-text: #1b5e20;
+            --google-red-text: #b71c1c;
             
-            --primary: #ff477e;
-            --accent: #ff85a2;
-            --gray-neutral: #e2e8f0;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --white: #ffffff;
@@ -32,12 +26,12 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            transition: all 0.25s ease; 
+            transition: background 0.5s ease, transform 0.25s ease; 
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--bg-grad);
+            background: #ecf3f3; /* Initial state */
             color: var(--text-main);
             padding: 24px 16px;
             min-height: 100vh;
@@ -45,56 +39,32 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Particle System Styles */
-        .c-hearts {
-            width: 100%;
-            height: 100%;
+        /* Particle Container */
+        #particle-container {
             position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        .c-hearts__particle {
-            width: 30px;
-            height: 30px;
-            opacity: 1;
+        .particle {
             position: absolute;
-            bottom: -50px;
-            animation-fill-mode: forwards;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 50%;
         }
 
-        @keyframes flowOne {
-            0% { opacity: 0; bottom: 0%; left: 35%; }
-            40% { opacity: .8; }
-            50% { opacity: 1; left: 45%; }
-            60% { opacity: .2; }
-            80% { bottom: 80%; }
-            100% { opacity: 0; bottom: 100%; left: 68%; }
-        }
-
-        @keyframes flowTwo {
-            0% { opacity: 0; bottom: 0%; left: 45%; }
-            40% { opacity: .8; }
-            50% { opacity: 1; left: 61%; }
-            60% { opacity: .2; }
-            80% { bottom: 60%; }
-            100% { opacity: 0; bottom: 80%; left: 45%; }
-        }
-
-        @keyframes flowThree {
-            0% { opacity: 0; bottom: 0%; left: 45%; }
-            40% { opacity: .8; }
-            50% { opacity: 1; left: 25%; }
-            60% { opacity: .2; }
-            80% { bottom: 70%; }
-            100% { opacity: 0; bottom: 90%; left: 45%; }
+        /* Generated Particles (Standard CSS conversion from SCSS) */
+        /* Note: Using 30 distinct animations to mimic the random nature of your request */
+        @keyframes particle-anim {
+            0% { transform: translate3d(var(--x1), var(--y1), 0); }
+            50% { transform: translate3d(var(--x2), var(--y2), 50px); }
+            100% { transform: translate3d(var(--x1), var(--y1), 0); }
         }
 
         .header {
@@ -107,7 +77,7 @@
             font-size: 34px;
             font-weight: 800;
             letter-spacing: -1px;
-            background: var(--primary-grad);
+            background: linear-gradient(135deg, #ff477e 0%, #f72585 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
@@ -132,37 +102,19 @@
         }
 
         .section {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 24px;
             border: 1px solid rgba(255, 71, 126, 0.1);
-            box-shadow: 0 10px 25px rgba(255, 71, 126, 0.1);
-            position: relative;
-            overflow: visible;
-        }
-
-        .status-emoji {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 32px;
-            background: #fff0f3;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            box-shadow: 0 4px 12px rgba(255, 71, 126, 0.2);
-            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
 
         .badge {
             font-size: 9px;
             padding: 5px 12px;
             border-radius: 100px;
-            background: var(--primary-grad);
+            background: var(--meesho-pink);
             color: var(--white);
             font-weight: 700;
             letter-spacing: 1px;
@@ -174,7 +126,6 @@
         h2 {
             font-size: 16px;
             font-weight: 700;
-            letter-spacing: 0.2px;
             margin-bottom: 20px;
             color: var(--text-main);
             display: flex;
@@ -186,7 +137,7 @@
             content: "";
             height: 2px;
             flex: 1;
-            background: rgba(255, 71, 126, 0.1);
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .input-grid {
@@ -204,69 +155,12 @@
             position: relative;
         }
 
-        .label {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .info-trigger {
-            width: 16px;
-            height: 16px;
-            background: var(--primary-grad);
-            color: white;
-            border-radius: 50%;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: 700;
-            flex-shrink: 0;
-            user-select: none;
-        }
-
-        .tooltip-box {
-            position: absolute;
-            bottom: 120%;
-            left: 0;
-            background: #1e293b;
-            color: white;
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 11px;
-            width: 200px;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transform: translateY(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            font-weight: 400;
-            line-height: 1.4;
-            transition: all 0.2s ease;
-        }
-
-        .tooltip-box::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 10px;
-            border-width: 6px;
-            border-style: solid;
-            border-color: #1e293b transparent transparent transparent;
-        }
-
-        .info-trigger.active + .tooltip-box {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
+        .label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
 
         input {
             width: 100%;
-            background: var(--input-grad);
-            border: 1px solid rgba(255, 71, 126, 0.2);
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             padding: 8px 12px;
             border-radius: 10px;
             color: var(--text-main);
@@ -274,101 +168,115 @@
             font-size: 14px;
             text-align: right;
             outline: none;
-            font-family: 'Poppins', sans-serif;
         }
 
-        input:focus {
-            border-color: var(--primary);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(255, 71, 126, 0.1);
+        input:focus { border-color: var(--meesho-pink); background: white; }
+
+        .shipping-btn {
+            grid-column: 1 / -1;
+            text-align: right;
+            background: transparent;
+            border: none;
+            color: var(--meesho-pink);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: -4px;
+            margin-bottom: 8px;
         }
 
+        /* Result Boxes */
         .result-box {
             margin-top: 15px;
             padding: 18px;
             border-radius: 16px;
             text-align: center;
-            background: var(--input-grad);
-            border: 1px solid rgba(255, 71, 126, 0.2);
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .result-box.is-profit { border-color: #81c784; background: #e8f5e9; color: var(--google-green-text); }
+        .result-box.is-loss { border-color: #e57373; background: #ffebee; color: var(--google-red-text); }
+
+        .result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+        .result-value { font-size: 28px; font-weight: 800; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px;
+            padding: 24px;
             position: relative;
-            overflow: hidden;
         }
 
-        .result-box.is-profit {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            border-color: #bbf7d0;
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 10px;
         }
 
-        .result-box.is-loss {
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-            border-color: #fecaca;
+        .data-table th, .data-table td {
+            padding: 8px;
+            border: 1px solid #eee;
+            text-align: left;
         }
-
-        .result-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .result-value {
-            font-size: 28px;
-            font-weight: 800;
-            position: relative;
-            z-index: 2;
-        }
-
-        .sub-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .sub-item {
-            padding: 12px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 71, 126, 0.1);
-            background: var(--input-grad);
-        }
-
-        .sub-label { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-        .sub-value { font-size: 16px; font-weight: 700; color: var(--text-main); margin-top: 2px; }
 
         .btn {
             width: 100%;
             padding: 18px;
             border-radius: 20px;
             border: none;
-            background: var(--primary-grad);
+            background: var(--meesho-pink);
             color: white;
             font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(255, 71, 126, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 71, 126, 0.2);
             margin-top: 10px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(255, 71, 126, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <!-- Emoji Particle Layer -->
-    <div class="c-hearts js-hearts"></div>
+    <div id="particle-container">
+        <!-- 30 particles as requested -->
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    </div>
+
+    <!-- Modal for Shipping Charges -->
+    <div class="modal-overlay" id="shippingModal">
+        <div class="modal-content">
+            <button onclick="closeModal()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; font-size: 20px; cursor: pointer;">✕</button>
+            <h3 style="color: var(--meesho-pink); margin-bottom: 15px;">Shipping Guide</h3>
+            <table class="data-table">
+                <tr style="background: #fdf2f8;">
+                    <th>Slab</th><th>Local</th><th>Regional</th><th>National</th>
+                </tr>
+                <tr><td>0–500g</td><td>₹35-45</td><td>₹45-70</td><td>₹55-90</td></tr>
+                <tr><td>501–1kg</td><td>₹44-55</td><td>₹54-75</td><td>₹64-95</td></tr>
+                <tr><td>+500g</td><td>+₹25</td><td>+₹25</td><td>+₹25</td></tr>
+            </table>
+            <h4 style="margin-top: 15px; font-size: 13px;">Returns</h4>
+            <p style="font-size: 12px; color: #666;">RTO: Free | Customer Return: ₹20–₹120+</p>
+        </div>
+    </div>
 
     <div class="header">
         <h1>MEESHO PRO</h1>
@@ -376,75 +284,38 @@
     </div>
 
     <div class="container" id="capture-area">
-        
-        <!-- Section 1: Real Profit Calc -->
         <div class="section">
-            <div id="status-icon" class="status-emoji">🥳</div>
             <div class="badge">Master Sheet</div>
             <h2>Meesho Real Profit</h2>
             
             <div class="input-grid">
-                <div class="label-wrap">
-                    <span class="label">Selling Price (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">The listing price visible to customers on Meesho.</div>
-                </div>
+                <div class="label-wrap"><span class="label">Selling Price (₹)</span></div>
                 <input type="number" id="sp" value="599">
 
-                <div class="label-wrap">
-                    <span class="label">GST % on Sale</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Output GST category for your product (5%, 12%, or 18%).</div>
-                </div>
+                <div class="label-wrap"><span class="label">GST % on Sale</span></div>
                 <input type="number" id="gstSale" value="12">
 
-                <div class="label-wrap">
-                    <span class="label">Commission %</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Marketplace fee. Often 0% on Meesho but variable for some.</div>
-                </div>
+                <div class="label-wrap"><span class="label">Commission %</span></div>
                 <input type="number" id="comm" value="0">
 
-                <div class="label-wrap">
-                    <span class="label">CAC (Ad Spend/Order)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Customer Acquisition Cost: Total Ads / Total Orders.</div>
-                </div>
+                <div class="label-wrap"><span class="label">CAC (Ads/Order)</span></div>
                 <input type="number" id="cac" value="15">
 
-                <div class="label-wrap">
-                    <span class="label">Returns Cost (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Avg. cost per order to handle reverse logistics.</div>
-                </div>
+                <div class="label-wrap"><span class="label">Shipping (₹)</span></div>
+                <input type="number" id="ship" value="75">
+                
+                <div class="label-wrap"><span class="label">Returns Cost (₹)</span></div>
                 <input type="number" id="retCost" value="40">
 
-                <div class="label-wrap">
-                    <span class="label">Packaging (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Cost of boxes, tape, labels, and polybags per unit.</div>
-                </div>
+                <button class="shipping-btn" onclick="openModal()">Shipping Charges Guide</button>
+
+                <div class="label-wrap"><span class="label">Packaging (₹)</span></div>
                 <input type="number" id="pkg" value="5">
 
-                <div class="label-wrap">
-                    <span class="label">Shipping (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Average forward shipping charges deducted by Meesho.</div>
-                </div>
-                <input type="number" id="ship" value="75">
-
-                <div class="label-wrap">
-                    <span class="label">TCS/TDS (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Statutory tax deductions (1% TCS + TDS) per order.</div>
-                </div>
+                <div class="label-wrap"><span class="label">TCS/TDS (₹)</span></div>
                 <input type="number" id="tax" value="6">
 
-                <div class="label-wrap">
-                    <span class="label">Product Cost (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Manufacturing or sourcing price of the product unit.</div>
-                </div>
+                <div class="label-wrap"><span class="label">Product Cost (₹)</span></div>
                 <input type="number" id="pc" value="280">
             </div>
 
@@ -454,133 +325,54 @@
             </div>
         </div>
 
-        <!-- Section 2: Annexure 2 -->
-        <div class="section">
-            <div class="badge">Annexure 2</div>
-            <h2>Per Order Cost</h2>
-            
-            <div class="input-grid">
-                <div class="label-wrap">
-                    <span class="label">Monthly Ad Spend (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Total monthly budget spent on Meesho internal ads.</div>
-                </div>
-                <input type="number" id="totalAds" value="15000">
-
-                <div class="label-wrap">
-                    <span class="label">Courier RTO Loss (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Loss incurred when a courier return happens (shipping + packing).</div>
-                </div>
-                <input type="number" id="rtoLoss" value="50">
-
-                <div class="label-wrap">
-                    <span class="label">Cust. Return Loss (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Includes reverse shipping + potential unit damage loss.</div>
-                </div>
-                <input type="number" id="custRetLoss" value="120">
-
-                <div class="label-wrap">
-                    <span class="label">Damage Cost (₹)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Estimated monthly loss due to transit or customer damage.</div>
-                </div>
-                <input type="number" id="damage" value="200">
-            </div>
-
-            <div class="result-box">
-                <div class="result-label">Effective Per Order Cost</div>
-                <div class="result-value" id="perOrderCost" style="background: var(--primary-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">₹0.00</div>
-            </div>
-        </div>
-
-        <!-- Section 3: Order Metrics -->
         <div class="section">
             <div class="badge">Scale Metrics</div>
-            <h2>Order Statistics</h2>
-            
+            <h2>Monthly Summary</h2>
             <div class="input-grid">
-                <div class="label-wrap">
-                    <span class="label">Total Orders (Target)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Total volume of orders processed in a month.</div>
-                </div>
+                <div class="label-wrap"><span class="label">Total Orders</span></div>
                 <input type="number" id="totalOrders" value="1000">
-
-                <div class="label-wrap">
-                    <span class="label">RTO % (inc Damage)</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Percentage of orders returned before delivery.</div>
-                </div>
+                <div class="label-wrap"><span class="label">RTO %</span></div>
                 <input type="number" id="rtoPct" value="15">
-
-                <div class="label-wrap">
-                    <span class="label">Customer Return %</span>
-                    <div class="info-trigger" onclick="toggleTooltip(this, event)">i</div>
-                    <div class="tooltip-box">Percentage of orders returned after delivery by users.</div>
-                </div>
+                <div class="label-wrap"><span class="label">Return %</span></div>
                 <input type="number" id="retPct" value="5">
             </div>
-
-            <div class="sub-grid">
-                <div class="sub-item">
-                    <div class="sub-label">GST on Sale</div>
-                    <div class="sub-value" id="calcGst">₹0.00</div>
-                </div>
-                <div class="sub-item">
-                    <div class="sub-label">Net Monthly Profit</div>
-                    <div class="sub-value" id="netMonthly" style="background: var(--primary-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">₹0</div>
-                </div>
+            <div class="result-box" style="margin-top: 15px;">
+                <div class="result-label">Net Monthly Profit</div>
+                <div class="result-value" id="netMonthly" style="color: var(--meesho-pink-deep);">₹0</div>
             </div>
         </div>
     </div>
 
     <div class="container">
         <button class="btn" onclick="exportReport()">Download Audit Report</button>
-        <p style="text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 15px; font-weight: 500;">
-            Calculations updated in real-time.
-        </p>
     </div>
 
 <script>
-    let currentEmoji = '🥳';
-    const allInputs = document.querySelectorAll('input');
-
-    function toggleTooltip(el, event) {
-        event.stopPropagation();
-        const wasActive = el.classList.contains('active');
-        document.querySelectorAll('.info-trigger').forEach(trigger => trigger.classList.remove('active'));
-        if (!wasActive) el.classList.add('active');
+    // Initialize Particles
+    function initParticles() {
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach((p, i) => {
+            const size = Math.floor(Math.random() * 5) + 5;
+            p.style.width = `${size}px`;
+            p.style.height = `${size}px`;
+            p.style.opacity = Math.random();
+            p.style.background = `hsl(${Math.random() * 360}, 70%, 50%)`;
+            
+            // Set random movement variables
+            p.style.setProperty('--x1', `${Math.random() * 90}vw`);
+            p.style.setProperty('--y1', `${Math.random() * 90}vh`);
+            p.style.setProperty('--x2', `${Math.random() * 90}vw`);
+            p.style.setProperty('--y2', `${Math.random() * 90}vh`);
+            
+            p.style.animation = `particle-anim ${20 + Math.random() * 40}s infinite alternate linear`;
+            p.style.animationDelay = `-${i * 0.2}s`;
+        });
     }
 
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.info-trigger').forEach(t => t.classList.remove('active'));
-    });
+    function openModal() { document.getElementById('shippingModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('shippingModal').style.display = 'none'; }
 
-    // Particle System Initialization
-    setInterval(function() {
-        const jsHearts = document.querySelector(".js-hearts");
-        if(!jsHearts) return;
-
-        const rand = Math.floor((Math.random() * 100) + 1);
-        const flows = ["flowOne", "flowTwo", "flowThree"];
-        const timing = (Math.random() * (2.6 - 2.0) + 2.0).toFixed(1);
-        
-        const particle = document.createElement('div');
-        particle.innerHTML = currentEmoji;
-        particle.className = `c-hearts__particle part-${rand}`;
-        particle.style.fontSize = Math.floor(Math.random() * (30 - 22) + 22) + "px";
-        particle.style.animation = `${flows[Math.floor(Math.random() * 3)]} ${timing}s linear`;
-        
-        jsHearts.appendChild(particle);
-
-        setTimeout(() => {
-            particle.remove();
-        }, timing * 1000);
-    }, 400);
-
-    function calculateAll() {
+    function calculate() {
         const sp = parseFloat(document.getElementById('sp').value) || 0;
         const gstSalePct = parseFloat(document.getElementById('gstSale').value) || 0;
         const commPct = parseFloat(document.getElementById('comm').value) || 0;
@@ -591,16 +383,10 @@
         const tax = parseFloat(document.getElementById('tax').value) || 0;
         const pc = parseFloat(document.getElementById('pc').value) || 0;
 
-        const totalAds = parseFloat(document.getElementById('totalAds').value) || 0;
-        const rtoLossUnit = parseFloat(document.getElementById('rtoLoss').value) || 0;
-        const custRetLossUnit = parseFloat(document.getElementById('custRetLoss').value) || 0;
-        const damageCost = parseFloat(document.getElementById('damage').value) || 0;
-
         const totalOrders = parseFloat(document.getElementById('totalOrders').value) || 0;
         const rtoPct = parseFloat(document.getElementById('rtoPct').value) || 0;
         const retPct = parseFloat(document.getElementById('retPct').value) || 0;
 
-        // Logic - Real Profit Calc
         const gstOnSale = sp - (sp * (100 / (100 + gstSalePct)));
         const itcOnProduct = pc - (pc * (100 / (100 + gstSalePct))); 
         const commission = sp * (commPct / 100);
@@ -613,66 +399,34 @@
         profitEl.textContent = `₹${realProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
         
         if (realProfit >= 0) {
-            profitEl.style.background = 'var(--success-grad)';
-            profitEl.style.webkitBackgroundClip = 'text';
-            profitEl.style.webkitTextFillColor = 'transparent';
+            document.body.style.background = 'var(--google-green-bg)';
             profitBox.className = 'result-box is-profit';
         } else {
-            profitEl.style.background = 'var(--danger-grad)';
-            profitEl.style.webkitBackgroundClip = 'text';
-            profitEl.style.webkitTextFillColor = 'transparent';
+            document.body.style.background = 'var(--google-red-bg)';
             profitBox.className = 'result-box is-loss';
         }
 
-        // Update Emoji and Global Particle State
-        const statusIcon = document.getElementById('status-icon');
-        if (realProfit >= 0) {
-            statusIcon.textContent = '🥳';
-            statusIcon.style.borderColor = '#10b981';
-            currentEmoji = '🥳';
-        } else {
-            statusIcon.textContent = '😒';
-            statusIcon.style.borderColor = '#ef4444';
-            currentEmoji = '😒';
-        }
-
-        // Logic - Annexure 2
-        const adCostPerOrder = totalOrders > 0 ? (totalAds / totalOrders) : 0;
-        const effectivePerOrderCost = adCostPerOrder + cac + pkg + tax; 
-        document.getElementById('perOrderCost').textContent = `₹${effectivePerOrderCost.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-
-        // Logic - Order Metrics
         const netDelivered = totalOrders * (1 - (rtoPct + retPct)/100);
-        const rtoOrders = totalOrders * (rtoPct / 100);
-        const retOrders = totalOrders * (retPct / 100);
-        
-        const totalRevenueProfit = netDelivered * realProfit;
-        const totalRtoLoss = rtoOrders * rtoLossUnit;
-        const totalRetLoss = retOrders * custRetLossUnit;
-        const netMonthlyProfit = totalRevenueProfit - totalRtoLoss - totalRetLoss - damageCost;
-
-        document.getElementById('calcGst').textContent = `₹${gstOnSale.toFixed(2)}`;
+        const netMonthlyProfit = netDelivered * realProfit;
         document.getElementById('netMonthly').textContent = `₹${Math.round(netMonthlyProfit).toLocaleString('en-IN')}`;
     }
 
     async function exportReport() {
-        const btn = document.querySelector('.btn');
-        btn.textContent = 'Generating...';
-        try {
-            const canvas = await html2canvas(document.querySelector('#capture-area'), {
-                backgroundColor: "#fff0f3",
-                scale: 2
-            });
-            const link = document.createElement('a');
-            link.download = `Meesho_RealProfit_Audit.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        } catch (e) { console.error(e); }
-        finally { btn.textContent = 'Download Audit Report'; }
+        const canvas = await html2canvas(document.querySelector('#capture-area'), {
+            backgroundColor: "#ecf3f3",
+            scale: 2
+        });
+        const link = document.createElement('a');
+        link.download = `Meesho_Audit.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
     }
 
-    allInputs.forEach(input => input.addEventListener('input', calculateAll));
-    window.addEventListener('load', calculateAll);
+    document.querySelectorAll('input').forEach(input => input.addEventListener('input', calculate));
+    window.onload = () => {
+        initParticles();
+        calculate();
+    };
 </script>
 </body>
 </html>
