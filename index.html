@@ -11,11 +11,9 @@
             --meesho-pink: #ff477e;
             --meesho-pink-deep: #f72585;
             
-            /* Google Brand Colors */
-            --google-green-bg: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            --google-red-bg: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-            --google-green-text: #1b5e20;
-            --google-red-text: #b71c1c;
+            /* Custom Brand Gradients */
+            --profit-bg: linear-gradient(135deg, #2EB62C 0%, #57C84D 100%);
+            --loss-bg: linear-gradient(135deg, #DC1C13 0%, #EA4C46 100%);
             
             --text-main: #1e293b;
             --text-muted: #64748b;
@@ -31,7 +29,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: #ecf3f3; /* Initial state */
+            background: #ecf3f3;
             color: var(--text-main);
             padding: 24px 16px;
             min-height: 100vh;
@@ -42,25 +40,20 @@
             position: relative;
         }
 
-        /* Particle Container */
         #particle-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
             overflow: hidden;
         }
 
-        .particle {
-            position: absolute;
-            border-radius: 50%;
+        .particle { 
+            position: absolute; 
+            border-radius: 50%; 
+            opacity: 0.4;
         }
 
-        /* Generated Particles (Standard CSS conversion from SCSS) */
-        /* Note: Using 30 distinct animations to mimic the random nature of your request */
         @keyframes particle-anim {
             0% { transform: translate3d(var(--x1), var(--y1), 0); }
             50% { transform: translate3d(var(--x2), var(--y2), 50px); }
@@ -68,28 +61,65 @@
         }
 
         .header {
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 32px;
             z-index: 10;
+            width: 100%;
+            max-width: 480px;
+            gap: 12px;
+        }
+
+        .status-emoji {
+            font-size: 28px;
+            background: white;
+            min-width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            order: 1; /* Left side */
+        }
+
+        .header-title { 
+            text-align: center; 
+            flex: 1; 
+            order: 2; /* Center */
         }
 
         .header h1 {
-            font-size: 34px;
+            font-size: 24px;
             font-weight: 800;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #ff477e 0%, #f72585 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            color: #ffffff; /* Changed to complete white */
             text-transform: uppercase;
         }
 
         .header p {
-            color: var(--text-muted);
-            font-size: 10px;
+            color: #ffffff; /* Changed to complete white */
+            opacity: 0.9;
+            font-size: 8px;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-top: 6px;
+        }
+
+        .lang-selector {
+            padding: 8px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 71, 126, 0.2);
+            background: var(--white);
+            font-family: 'Poppins', sans-serif;
+            font-size: 11px;
+            color: var(--meesho-pink);
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+            order: 3; /* Right side */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .container {
@@ -142,7 +172,7 @@
 
         .input-grid {
             display: grid;
-            grid-template-columns: 1fr 100px;
+            grid-template-columns: 1fr 110px;
             gap: 12px;
             align-items: center;
             margin-bottom: 8px;
@@ -151,26 +181,70 @@
         .label-wrap {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             position: relative;
         }
 
         .label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
 
+        .info-trigger {
+            width: 18px;
+            height: 18px;
+            background: var(--meesho-pink);
+            color: white;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 700;
+            flex-shrink: 0;
+            user-select: none;
+            box-shadow: 0 2px 5px rgba(255, 71, 126, 0.3);
+        }
+
+        .tooltip-box {
+            position: absolute;
+            bottom: 130%;
+            left: 0;
+            background: #1e293b;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 11px;
+            width: 200px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            font-weight: 400;
+            line-height: 1.4;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .info-trigger.active + .tooltip-box {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
         input {
             width: 100%;
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            padding: 8px 12px;
-            border-radius: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
             color: var(--text-main);
-            font-weight: 600;
+            font-weight: 700;
             font-size: 14px;
             text-align: right;
             outline: none;
         }
 
-        input:focus { border-color: var(--meesho-pink); background: white; }
+        input:focus { border-color: var(--meesho-pink); background: white; box-shadow: 0 0 0 3px rgba(255, 71, 126, 0.1); }
 
         .shipping-btn {
             grid-column: 1 / -1;
@@ -179,198 +253,326 @@
             border: none;
             color: var(--meesho-pink);
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             text-decoration: underline;
             margin-top: -4px;
             margin-bottom: 8px;
         }
 
-        /* Result Boxes */
         .result-box {
             margin-top: 15px;
-            padding: 18px;
-            border-radius: 16px;
+            padding: 20px;
+            border-radius: 18px;
             text-align: center;
             border: 1px solid #e2e8f0;
             background: #f8fafc;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
-        .result-box.is-profit { border-color: #81c784; background: #e8f5e9; color: var(--google-green-text); }
-        .result-box.is-loss { border-color: #e57373; background: #ffebee; color: var(--google-red-text); }
+        .result-box.is-profit { 
+            border-color: rgba(255,255,255,0.2); 
+            background: var(--profit-bg); 
+            color: white; 
+        }
+        .result-box.is-loss { 
+            border-color: rgba(255,255,255,0.2); 
+            background: var(--loss-bg); 
+            color: white; 
+        }
 
-        .result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
-        .result-value { font-size: 28px; font-weight: 800; }
+        .result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; opacity: 0.9; }
+        .result-value { font-size: 32px; font-weight: 900; }
 
-        /* Modal */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 10000;
             padding: 20px;
+            backdrop-filter: blur(4px);
         }
 
         .modal-content {
             background: white;
             width: 100%;
-            max-width: 500px;
-            border-radius: 24px;
-            padding: 24px;
+            max-width: 450px;
+            border-radius: 28px;
+            padding: 28px;
             position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
         .data-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 12px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .data-table th, .data-table td {
-            padding: 8px;
-            border: 1px solid #eee;
+            padding: 10px;
+            border: 1px solid #f1f5f9;
             text-align: left;
         }
 
         .btn {
             width: 100%;
-            padding: 18px;
-            border-radius: 20px;
+            padding: 20px;
+            border-radius: 22px;
             border: none;
             background: var(--meesho-pink);
             color: white;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(255, 71, 126, 0.2);
+            box-shadow: 0 10px 25px rgba(255, 71, 126, 0.3);
             margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+        
+        .btn:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
 
     <div id="particle-container">
-        <!-- 30 particles as requested -->
+        <!-- 30 particles -->
         <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
     </div>
 
-    <!-- Modal for Shipping Charges -->
     <div class="modal-overlay" id="shippingModal">
         <div class="modal-content">
-            <button onclick="closeModal()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; font-size: 20px; cursor: pointer;">✕</button>
-            <h3 style="color: var(--meesho-pink); margin-bottom: 15px;">Shipping Guide</h3>
+            <button onclick="closeModal()" style="position: absolute; right: 24px; top: 24px; background: #f1f5f9; border: none; font-size: 18px; cursor: pointer; width: 32px; height: 32px; border-radius: 50%;">✕</button>
+            <h3 id="modalTitle" style="color: var(--meesho-pink); margin-bottom: 15px; font-weight: 800;">Shipping Guide</h3>
             <table class="data-table">
-                <tr style="background: #fdf2f8;">
-                    <th>Slab</th><th>Local</th><th>Regional</th><th>National</th>
+                <tr style="background: #fdf2f8; color: var(--meesho-pink); font-weight: 700;">
+                    <th data-key="slab">Slab</th><th data-key="local">Local</th><th data-key="regional">Regional</th><th data-key="national">National</th>
                 </tr>
                 <tr><td>0–500g</td><td>₹35-45</td><td>₹45-70</td><td>₹55-90</td></tr>
                 <tr><td>501–1kg</td><td>₹44-55</td><td>₹54-75</td><td>₹64-95</td></tr>
                 <tr><td>+500g</td><td>+₹25</td><td>+₹25</td><td>+₹25</td></tr>
             </table>
-            <h4 style="margin-top: 15px; font-size: 13px;">Returns</h4>
-            <p style="font-size: 12px; color: #666;">RTO: Free | Customer Return: ₹20–₹120+</p>
+            <h4 id="retTitle" style="margin-top: 20px; font-size: 14px; font-weight: 700;">Returns Costing</h4>
+            <p id="retText" style="font-size: 12px; color: #64748b; margin-top: 5px;">RTO (Un-delivered): Free | Customer Return: ₹20–₹120+ based on weight.</p>
         </div>
     </div>
 
     <div class="header">
-        <h1>MEESHO PRO</h1>
-        <p>Advanced Profit Analyzer</p>
+        <div class="status-emoji" id="statusEmoji">💰</div>
+        <div class="header-title">
+            <h1>MEESHO PRO</h1>
+            <p id="subHeader">Advanced Profit Analyzer</p>
+        </div>
+        <select class="lang-selector" id="langSelect" onchange="changeLanguage()">
+            <option value="en">EN</option>
+            <option value="hi">HI</option>
+            <option value="bn">BN</option>
+            <option value="mr">MR</option>
+            <option value="te">TE</option>
+            <option value="ta">TA</option>
+            <option value="gu">GU</option>
+            <option value="ur">UR</option>
+            <option value="kn">KN</option>
+            <option value="or">OR</option>
+            <option value="ml">ML</option>
+        </select>
     </div>
 
     <div class="container" id="capture-area">
+        <!-- Master Sheet Section -->
         <div class="section">
-            <div class="badge">Master Sheet</div>
-            <h2>Meesho Real Profit</h2>
+            <div class="badge" id="badgeMaster">Master Sheet</div>
+            <h2 id="titleRealProfit">Meesho Real Profit</h2>
             
             <div class="input-grid">
-                <div class="label-wrap"><span class="label">Selling Price (₹)</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblSp">Selling Price (₹)</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipSp">The final price customer pays on Meesho.</div>
+                </div>
                 <input type="number" id="sp" value="599">
 
-                <div class="label-wrap"><span class="label">GST % on Sale</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblGst">GST % on Sale</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipGst">Tax percentage applicable to your category (e.g. 5% or 12%).</div>
+                </div>
                 <input type="number" id="gstSale" value="12">
 
-                <div class="label-wrap"><span class="label">Commission %</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblComm">Commission %</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipComm">Meesho commission (usually 0% for most sellers).</div>
+                </div>
                 <input type="number" id="comm" value="0">
 
-                <div class="label-wrap"><span class="label">CAC (Ads/Order)</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblCac">CAC (Ads/Order)</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipCac">Average advertising spend required to get one order.</div>
+                </div>
                 <input type="number" id="cac" value="15">
 
-                <div class="label-wrap"><span class="label">Shipping (₹)</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblShip">Shipping (₹)</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipShip">Forward shipping fee charged by Meesho.</div>
+                </div>
                 <input type="number" id="ship" value="75">
                 
-                <div class="label-wrap"><span class="label">Returns Cost (₹)</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblRetC">Returns Cost (₹)</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipRetC">Calculated average cost for reverse shipping & damage risk.</div>
+                </div>
                 <input type="number" id="retCost" value="40">
 
-                <button class="shipping-btn" onclick="openModal()">Shipping Charges Guide</button>
+                <button class="shipping-btn" id="btnGuide" onclick="openModal()">Shipping Charges Guide</button>
 
-                <div class="label-wrap"><span class="label">Packaging (₹)</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblPkg">Packaging (₹)</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipPkg">Cost of polybag, label printing, and tape.</div>
+                </div>
                 <input type="number" id="pkg" value="5">
 
-                <div class="label-wrap"><span class="label">TCS/TDS (₹)</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblTax">TCS/TDS (₹)</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipTax">Statutory tax deductions (approx 1-2%).</div>
+                </div>
                 <input type="number" id="tax" value="6">
 
-                <div class="label-wrap"><span class="label">Product Cost (₹)</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblPc">Product Cost (₹)</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipPc">Your wholesale purchase or manufacturing cost.</div>
+                </div>
                 <input type="number" id="pc" value="280">
             </div>
 
             <div class="result-box" id="realProfitBox">
-                <div class="result-label">Net Real Profit</div>
+                <div class="result-label" id="lblNetReal">Net Real Profit</div>
                 <div class="result-value" id="realProfit">₹0.00</div>
             </div>
         </div>
 
+        <!-- Scale Metrics Section -->
         <div class="section">
-            <div class="badge">Scale Metrics</div>
-            <h2>Monthly Summary</h2>
+            <div class="badge" id="badgeSummary">Scale Metrics</div>
+            <h2 id="titleMonthly">Monthly Summary</h2>
             <div class="input-grid">
-                <div class="label-wrap"><span class="label">Total Orders</span></div>
+                <div class="label-wrap">
+                    <span class="label" data-key="lblOrders">Total Orders</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipOrders">Your total monthly order volume target.</div>
+                </div>
                 <input type="number" id="totalOrders" value="1000">
-                <div class="label-wrap"><span class="label">RTO %</span></div>
+
+                <div class="label-wrap">
+                    <span class="label" data-key="lblRto">RTO %</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipRto">Orders returned before delivery (Undelivered).</div>
+                </div>
                 <input type="number" id="rtoPct" value="15">
-                <div class="label-wrap"><span class="label">Return %</span></div>
+
+                <div class="label-wrap">
+                    <span class="label" data-key="lblRet">Return %</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipRet">Orders returned by customers after delivery.</div>
+                </div>
                 <input type="number" id="retPct" value="5">
             </div>
-            <div class="result-box" style="margin-top: 15px;">
-                <div class="result-label">Net Monthly Profit</div>
-                <div class="result-value" id="netMonthly" style="color: var(--meesho-pink-deep);">₹0</div>
+            <div class="result-box" id="monthlyBox" style="margin-top: 15px;">
+                <div class="result-label" id="lblNetMonth">Net Monthly Profit</div>
+                <div class="result-value" id="netMonthly">₹0</div>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <button class="btn" onclick="exportReport()">Download Audit Report</button>
+        <button class="btn" id="btnDownload" onclick="exportReport()">Download Audit Report</button>
     </div>
 
 <script>
-    // Initialize Particles
+    const translations = {
+        en: {
+            subHeader: "Advanced Profit Analyzer", badgeMaster: "Master Sheet", titleRealProfit: "Meesho Real Profit",
+            lblSp: "Selling Price (₹)", tipSp: "Final price shown to customer.",
+            lblGst: "GST % on Sale", tipGst: "Output tax on selling price.",
+            lblComm: "Commission %", tipComm: "Marketplace fee.",
+            lblCac: "CAC (Ads/Order)", tipCac: "Cost per acquisition via ads.",
+            lblShip: "Shipping (₹)", tipShip: "Forward shipping expense.",
+            lblRetC: "Returns Cost (₹)", tipRetC: "Reverse logistics and handling.",
+            btnGuide: "Shipping Charges Guide",
+            lblPkg: "Packaging (₹)", tipPkg: "Bags, tape, labels.",
+            lblTax: "TCS/TDS (₹)", tipTax: "Statutory deductions.",
+            lblPc: "Product Cost (₹)", tipPc: "Your sourcing price.",
+            lblNetReal: "Net Real Profit",
+            badgeSummary: "Scale Metrics", titleMonthly: "Monthly Summary",
+            lblOrders: "Total Orders", tipOrders: "Total volume per month.",
+            lblRto: "RTO %", tipRto: "Undelivered orders percentage.",
+            lblRet: "Return %", tipRet: "Customer initiated returns.",
+            lblNetMonth: "Net Monthly Profit", btnDownload: "Download Audit Report",
+            modalTitle: "Shipping Guide", slab: "Slab", local: "Local", regional: "Regional", national: "National",
+            retTitle: "Returns", retText: "RTO: Free | Customer Return: ₹20–₹120+"
+        },
+        hi: {
+            subHeader: "उन्नत लाभ विश्लेषक", badgeMaster: "मास्टर शीट", titleRealProfit: "मीशो वास्तविक लाभ",
+            lblSp: "विक्रय मूल्य (₹)", lblGst: "बिक्री पर GST %", lblComm: "कमीशन %", lblCac: "CAC (विज्ञापन)", lblShip: "शिपिंग (₹)", lblRetC: "रिटर्न लागत (₹)",
+            btnGuide: "शिपिंग शुल्क गाइड", lblPkg: "पैकेजिंग (₹)", lblTax: "TCS/TDS (₹)", lblPc: "उत्पाद लागत (₹)", lblNetReal: "शुद्ध वास्तविक लाभ",
+            badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक सारांश", lblOrders: "कुल ऑर्डर", lblRto: "RTO %", lblRet: "रिटर्न %", lblNetMonth: "शुद्ध मासिक लाभ",
+            btnDownload: "ऑडिट रिपोर्ट डाउनलोड करें", modalTitle: "शिपिंग गाइड"
+        }
+    };
+
+    function toggleTooltip(trigger) {
+        const wasActive = trigger.classList.contains('active');
+        document.querySelectorAll('.info-trigger').forEach(t => t.classList.remove('active'));
+        if (!wasActive) trigger.classList.add('active');
+    }
+
+    function changeLanguage() {
+        const lang = document.getElementById('langSelect').value;
+        const dict = translations[lang] || translations.en;
+        
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if(dict[key]) el.textContent = dict[key];
+        });
+        
+        const staticIds = ['subHeader','badgeMaster','titleRealProfit','btnGuide','lblNetReal','badgeSummary','titleMonthly','lblNetMonth','btnDownload','modalTitle'];
+        staticIds.forEach(id => {
+            if(dict[id]) document.getElementById(id).textContent = dict[id];
+        });
+    }
+
     function initParticles() {
+        const container = document.getElementById('particle-container');
         const particles = document.querySelectorAll('.particle');
         particles.forEach((p, i) => {
-            const size = Math.floor(Math.random() * 5) + 5;
-            p.style.width = `${size}px`;
-            p.style.height = `${size}px`;
-            p.style.opacity = Math.random();
-            p.style.background = `hsl(${Math.random() * 360}, 70%, 50%)`;
-            
-            // Set random movement variables
-            p.style.setProperty('--x1', `${Math.random() * 90}vw`);
-            p.style.setProperty('--y1', `${Math.random() * 90}vh`);
-            p.style.setProperty('--x2', `${Math.random() * 90}vw`);
-            p.style.setProperty('--y2', `${Math.random() * 90}vh`);
-            
-            p.style.animation = `particle-anim ${20 + Math.random() * 40}s infinite alternate linear`;
-            p.style.animationDelay = `-${i * 0.2}s`;
+            const size = Math.floor(Math.random() * 6) + 4;
+            p.style.width = `${size}px`; p.style.height = `${size}px`;
+            p.style.background = `rgba(255,255,255, ${0.4 + Math.random() * 0.4})`;
+            p.style.setProperty('--x1', `${Math.random() * 100}vw`);
+            p.style.setProperty('--y1', `${Math.random() * 100}vh`);
+            p.style.setProperty('--x2', `${Math.random() * 100}vw`);
+            p.style.setProperty('--y2', `${Math.random() * 100}vh`);
+            p.style.animation = `particle-anim ${25 + Math.random() * 50}s infinite alternate linear`;
+            p.style.animationDelay = `-${i * 1.5}s`;
         });
     }
 
     function openModal() { document.getElementById('shippingModal').style.display = 'flex'; }
     function closeModal() { document.getElementById('shippingModal').style.display = 'none'; }
+
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.info-trigger').forEach(t => t.classList.remove('active'));
+    });
 
     function calculate() {
         const sp = parseFloat(document.getElementById('sp').value) || 0;
@@ -395,15 +597,21 @@
         
         const profitEl = document.getElementById('realProfit');
         const profitBox = document.getElementById('realProfitBox');
+        const monthlyBox = document.getElementById('monthlyBox');
+        const statusEmoji = document.getElementById('statusEmoji');
         
         profitEl.textContent = `₹${realProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
         
         if (realProfit >= 0) {
-            document.body.style.background = 'var(--google-green-bg)';
+            document.body.style.background = 'var(--profit-bg)';
             profitBox.className = 'result-box is-profit';
+            monthlyBox.className = 'result-box is-profit';
+            statusEmoji.textContent = '💰';
         } else {
-            document.body.style.background = 'var(--google-red-bg)';
+            document.body.style.background = 'var(--loss-bg)';
             profitBox.className = 'result-box is-loss';
+            monthlyBox.className = 'result-box is-loss';
+            statusEmoji.textContent = '📉';
         }
 
         const netDelivered = totalOrders * (1 - (rtoPct + retPct)/100);
@@ -412,12 +620,14 @@
     }
 
     async function exportReport() {
-        const canvas = await html2canvas(document.querySelector('#capture-area'), {
-            backgroundColor: "#ecf3f3",
-            scale: 2
+        const capture = document.querySelector('#capture-area');
+        const canvas = await html2canvas(capture, { 
+            backgroundColor: null, 
+            scale: 2,
+            useCORS: true
         });
         const link = document.createElement('a');
-        link.download = `Meesho_Audit.png`;
+        link.download = `Meesho_Pro_Report.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
     }
