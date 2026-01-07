@@ -11,7 +11,7 @@
             --meesho-pink: #ff477e;
             --meesho-pink-deep: #f72585;
             
-            /* Custom Brand Gradients */
+            /* Gradients */
             --profit-bg: linear-gradient(135deg, #2EB62C 0%, #57C84D 100%);
             --loss-bg: linear-gradient(135deg, #DC1C13 0%, #EA4C46 100%);
             
@@ -40,11 +40,12 @@
             position: relative;
         }
 
+        /* Particles restored */
         #particle-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 1;
+            z-index: 0;
             overflow: hidden;
         }
 
@@ -52,6 +53,7 @@
             position: absolute; 
             border-radius: 50%; 
             opacity: 0.4;
+            background: white;
         }
 
         @keyframes particle-anim {
@@ -81,31 +83,11 @@
             justify-content: center;
             border-radius: 14px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            order: 1; /* Left side */
         }
 
-        .header-title { 
-            text-align: center; 
-            flex: 1; 
-            order: 2; /* Center */
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: #ffffff; /* Changed to complete white */
-            text-transform: uppercase;
-        }
-
-        .header p {
-            color: #ffffff; /* Changed to complete white */
-            opacity: 0.9;
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
+        .header-title { text-align: center; flex: 1; }
+        .header h1 { font-size: 24px; font-weight: 800; color: #ffffff; text-transform: uppercase; }
+        .header p { color: #ffffff; opacity: 0.9; font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
 
         .lang-selector {
             padding: 8px 10px;
@@ -118,7 +100,6 @@
             font-weight: 700;
             outline: none;
             cursor: pointer;
-            order: 3; /* Right side */
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
@@ -153,195 +134,75 @@
             text-transform: uppercase;
         }
 
-        h2 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        h2 { font-size: 16px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        h2::after { content: ""; height: 2px; flex: 1; background: rgba(0, 0, 0, 0.05); }
 
-        h2::after {
-            content: "";
-            height: 2px;
-            flex: 1;
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .input-grid {
-            display: grid;
-            grid-template-columns: 1fr 110px;
-            gap: 12px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .label-wrap {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-        }
-
+        .input-grid { display: grid; grid-template-columns: 1fr 110px; gap: 12px; align-items: center; margin-bottom: 8px; }
+        .label-wrap { display: flex; align-items: center; gap: 8px; position: relative; }
         .label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
 
         .info-trigger {
-            width: 18px;
-            height: 18px;
-            background: var(--meesho-pink);
-            color: white;
-            border-radius: 50%;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: 700;
-            flex-shrink: 0;
-            user-select: none;
-            box-shadow: 0 2px 5px rgba(255, 71, 126, 0.3);
+            width: 18px; height: 18px; background: var(--meesho-pink); color: white; border-radius: 50%;
+            font-size: 11px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-weight: 700; flex-shrink: 0; box-shadow: 0 2px 5px rgba(255, 71, 126, 0.3);
         }
 
         .tooltip-box {
-            position: absolute;
-            bottom: 130%;
-            left: 0;
-            background: #1e293b;
-            color: white;
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 11px;
-            width: 200px;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transform: translateY(5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            font-weight: 400;
-            line-height: 1.4;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute; bottom: 130%; left: 0; background: #1e293b; color: white;
+            padding: 10px 14px; border-radius: 12px; font-size: 11px; width: 200px; z-index: 100;
+            opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: all 0.2s ease;
         }
 
-        .info-trigger.active + .tooltip-box {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
+        .info-trigger.active + .tooltip-box { opacity: 1; visibility: visible; transform: translateY(0); }
 
         input {
-            width: 100%;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 10px 12px;
-            border-radius: 12px;
-            color: var(--text-main);
-            font-weight: 700;
-            font-size: 14px;
-            text-align: right;
-            outline: none;
+            width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 12px;
+            border-radius: 12px; color: var(--text-main); font-weight: 700; font-size: 14px; text-align: right; outline: none;
         }
-
-        input:focus { border-color: var(--meesho-pink); background: white; box-shadow: 0 0 0 3px rgba(255, 71, 126, 0.1); }
+        input:focus { border-color: var(--meesho-pink); background: white; }
 
         .shipping-btn {
-            grid-column: 1 / -1;
-            text-align: right;
-            background: transparent;
-            border: none;
-            color: var(--meesho-pink);
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-top: -4px;
-            margin-bottom: 8px;
+            grid-column: 1 / -1; text-align: right; background: transparent; border: none;
+            color: var(--meesho-pink); font-size: 11px; font-weight: 700; cursor: pointer;
+            text-decoration: underline; margin-top: -4px; margin-bottom: 8px;
         }
 
         .result-box {
-            margin-top: 15px;
-            padding: 20px;
-            border-radius: 18px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-            background: #f8fafc;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            margin-top: 15px; padding: 20px; border-radius: 18px; text-align: center;
+            border: 1px solid #e2e8f0; background: #f8fafc;
         }
-
-        .result-box.is-profit { 
-            border-color: rgba(255,255,255,0.2); 
-            background: var(--profit-bg); 
-            color: white; 
-        }
-        .result-box.is-loss { 
-            border-color: rgba(255,255,255,0.2); 
-            background: var(--loss-bg); 
-            color: white; 
-        }
+        .result-box.is-profit { background: var(--profit-bg); color: white; border-color: transparent; }
+        .result-box.is-loss { background: var(--loss-bg); color: white; border-color: transparent; }
 
         .result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; opacity: 0.9; }
         .result-value { font-size: 32px; font-weight: 900; }
 
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            padding: 20px;
-            backdrop-filter: blur(4px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); display: none; justify-content: center;
+            align-items: center; z-index: 10000; padding: 20px; backdrop-filter: blur(4px);
         }
-
         .modal-content {
-            background: white;
-            width: 100%;
-            max-width: 450px;
-            border-radius: 28px;
-            padding: 28px;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            margin-top: 15px;
-        }
-
-        .data-table th, .data-table td {
-            padding: 10px;
-            border: 1px solid #f1f5f9;
-            text-align: left;
+            background: white; width: 100%; max-width: 450px; border-radius: 28px; padding: 28px;
+            position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
         .btn {
-            width: 100%;
-            padding: 20px;
-            border-radius: 22px;
-            border: none;
-            background: var(--meesho-pink);
-            color: white;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(255, 71, 126, 0.3);
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            width: 100%; padding: 20px; border-radius: 22px; border: none; background: var(--meesho-pink);
+            color: white; font-weight: 800; cursor: pointer; box-shadow: 0 10px 25px rgba(255, 71, 126, 0.3);
+            margin-top: 10px; text-transform: uppercase; letter-spacing: 1px;
         }
-        
         .btn:active { transform: scale(0.98); }
+        
+        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 15px; }
+        .data-table th, .data-table td { padding: 10px; border: 1px solid #f1f5f9; text-align: left; }
     </style>
 </head>
 <body>
 
     <div id="particle-container">
-        <!-- 30 particles -->
-        <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <!-- JS will populate these -->
     </div>
 
     <div class="modal-overlay" id="shippingModal">
@@ -383,7 +244,6 @@
     </div>
 
     <div class="container" id="capture-area">
-        <!-- Master Sheet Section -->
         <div class="section">
             <div class="badge" id="badgeMaster">Master Sheet</div>
             <h2 id="titleRealProfit">Meesho Real Profit</h2>
@@ -399,35 +259,35 @@
                 <div class="label-wrap">
                     <span class="label" data-key="lblGst">GST % on Sale</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipGst">Tax percentage applicable to your category (e.g. 5% or 12%).</div>
+                    <div class="tooltip-box" data-key="tipGst">Tax percentage applicable to your category.</div>
                 </div>
                 <input type="number" id="gstSale" value="12">
 
                 <div class="label-wrap">
                     <span class="label" data-key="lblComm">Commission %</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipComm">Meesho commission (usually 0% for most sellers).</div>
+                    <div class="tooltip-box" data-key="tipComm">Meesho commission fee.</div>
                 </div>
                 <input type="number" id="comm" value="0">
 
                 <div class="label-wrap">
                     <span class="label" data-key="lblCac">CAC (Ads/Order)</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipCac">Average advertising spend required to get one order.</div>
+                    <div class="tooltip-box" data-key="tipCac">Cost of ads spent per order.</div>
                 </div>
                 <input type="number" id="cac" value="15">
 
                 <div class="label-wrap">
                     <span class="label" data-key="lblShip">Shipping (₹)</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipShip">Forward shipping fee charged by Meesho.</div>
+                    <div class="tooltip-box" data-key="tipShip">Forward shipping fee.</div>
                 </div>
                 <input type="number" id="ship" value="75">
                 
                 <div class="label-wrap">
                     <span class="label" data-key="lblRetC">Returns Cost (₹)</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipRetC">Calculated average cost for reverse shipping & damage risk.</div>
+                    <div class="tooltip-box" data-key="tipRetC">Reverse logistics avg cost.</div>
                 </div>
                 <input type="number" id="retCost" value="40">
 
@@ -436,21 +296,21 @@
                 <div class="label-wrap">
                     <span class="label" data-key="lblPkg">Packaging (₹)</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipPkg">Cost of polybag, label printing, and tape.</div>
+                    <div class="tooltip-box" data-key="tipPkg">Box, labels, tape cost.</div>
                 </div>
                 <input type="number" id="pkg" value="5">
 
                 <div class="label-wrap">
                     <span class="label" data-key="lblTax">TCS/TDS (₹)</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipTax">Statutory tax deductions (approx 1-2%).</div>
+                    <div class="tooltip-box" data-key="tipTax">Statutory deductions.</div>
                 </div>
                 <input type="number" id="tax" value="6">
 
                 <div class="label-wrap">
                     <span class="label" data-key="lblPc">Product Cost (₹)</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipPc">Your wholesale purchase or manufacturing cost.</div>
+                    <div class="tooltip-box" data-key="tipPc">Your sourcing price.</div>
                 </div>
                 <input type="number" id="pc" value="280">
             </div>
@@ -461,33 +321,26 @@
             </div>
         </div>
 
-        <!-- Scale Metrics Section -->
         <div class="section">
             <div class="badge" id="badgeSummary">Scale Metrics</div>
             <h2 id="titleMonthly">Monthly Summary</h2>
             <div class="input-grid">
                 <div class="label-wrap">
                     <span class="label" data-key="lblOrders">Total Orders</span>
-                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipOrders">Your total monthly order volume target.</div>
                 </div>
                 <input type="number" id="totalOrders" value="1000">
 
                 <div class="label-wrap">
                     <span class="label" data-key="lblRto">RTO %</span>
-                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipRto">Orders returned before delivery (Undelivered).</div>
                 </div>
                 <input type="number" id="rtoPct" value="15">
 
                 <div class="label-wrap">
                     <span class="label" data-key="lblRet">Return %</span>
-                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipRet">Orders returned by customers after delivery.</div>
                 </div>
                 <input type="number" id="retPct" value="5">
             </div>
-            <div class="result-box" id="monthlyBox" style="margin-top: 15px;">
+            <div class="result-box" id="monthlyBox">
                 <div class="result-label" id="lblNetMonth">Net Monthly Profit</div>
                 <div class="result-value" id="netMonthly">₹0</div>
             </div>
@@ -514,9 +367,7 @@
             lblPc: "Product Cost (₹)", tipPc: "Your sourcing price.",
             lblNetReal: "Net Real Profit",
             badgeSummary: "Scale Metrics", titleMonthly: "Monthly Summary",
-            lblOrders: "Total Orders", tipOrders: "Total volume per month.",
-            lblRto: "RTO %", tipRto: "Undelivered orders percentage.",
-            lblRet: "Return %", tipRet: "Customer initiated returns.",
+            lblOrders: "Total Orders", lblRto: "RTO %", lblRet: "Return %",
             lblNetMonth: "Net Monthly Profit", btnDownload: "Download Audit Report",
             modalTitle: "Shipping Guide", slab: "Slab", local: "Local", regional: "Regional", national: "National",
             retTitle: "Returns", retText: "RTO: Free | Customer Return: ₹20–₹120+"
@@ -526,7 +377,70 @@
             lblSp: "विक्रय मूल्य (₹)", lblGst: "बिक्री पर GST %", lblComm: "कमीशन %", lblCac: "CAC (विज्ञापन)", lblShip: "शिपिंग (₹)", lblRetC: "रिटर्न लागत (₹)",
             btnGuide: "शिपिंग शुल्क गाइड", lblPkg: "पैकेजिंग (₹)", lblTax: "TCS/TDS (₹)", lblPc: "उत्पाद लागत (₹)", lblNetReal: "शुद्ध वास्तविक लाभ",
             badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक सारांश", lblOrders: "कुल ऑर्डर", lblRto: "RTO %", lblRet: "रिटर्न %", lblNetMonth: "शुद्ध मासिक लाभ",
-            btnDownload: "ऑडिट रिपोर्ट डाउनलोड करें", modalTitle: "शिपिंग गाइड"
+            btnDownload: "ऑडिट रिपोर्ट डाउनलोड करें", modalTitle: "शिपिंग गाइड", slab: "स्लैब", local: "स्थानीय", regional: "क्षेत्रीय", national: "राष्ट्रीय", retTitle: "रिटर्न", retText: "RTO: निःशुल्क | ग्राहक रिटर्न: ₹20-₹120+"
+        },
+        bn: {
+            subHeader: "উন্নত লাভ বিশ্লেষক", badgeMaster: "মাস্টার শিট", titleRealProfit: "মিশো প্রকৃত লাভ",
+            lblSp: "বিক্রয় মূল্য (₹)", lblGst: "বিক্রয়ের ওপর GST %", lblComm: "কমিশন %", lblCac: "CAC (অ্যাড)", lblShip: "শিপিং (₹)", lblRetC: "রিটার্ন খরচ (₹)",
+            btnGuide: "শিপিং চার্জ গাইড", lblPkg: "প্যাকেজিং (₹)", lblTax: "TCS/TDS (₹)", lblPc: "পণ্য খরচ (₹)", lblNetReal: "প্রকৃত নিট লাভ",
+            badgeSummary: "স্কেল মেট্রিক্স", titleMonthly: "মাসিক সারাংশ", lblOrders: "মোট অর্ডার", lblRto: "RTO %", lblRet: "রিটার্ন %", lblNetMonth: "মাসিক নিট লাভ",
+            btnDownload: "অডিট রিপোর্ট ডাউনলোড করুন", modalTitle: "শিপিং গাইড", slab: "স্ল্যাব", local: "লোকাল", regional: "রিজিওনাল", national: "ন্যাশনাল", retTitle: "রিটার্ন", retText: "RTO: ফ্রি | কাস্টমার রিটার্ন: ₹২০-₹১২০+"
+        },
+        mr: {
+            subHeader: "प्रगत नफा विश्लेषक", badgeMaster: "मास्टर शीट", titleRealProfit: "मीशो वास्तविक नफा",
+            lblSp: "विक्री किंमत (₹)", lblGst: "विक्रीवर GST %", lblComm: "कमीशन %", lblCac: "CAC (जाहिरात)", lblShip: "शिपिंग (₹)", lblRetC: "रिटर्न खर्च (₹)",
+            btnGuide: "शिपिंग शुल्क मार्गदर्शक", lblPkg: "पॅकेजिंग (₹)", lblTax: "TCS/TDS (₹)", lblPc: "उत्पादन खर्च (₹)", lblNetReal: "निव्वळ वास्तविक नफा",
+            badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक सारांश", lblOrders: "एकूण ऑर्डर", lblRto: "RTO %", lblRet: "रिटर्न %", lblNetMonth: "निव्वळ मासिक नफा",
+            btnDownload: "ऑडिट रिपोर्ट डाउनलोड करा", modalTitle: "शिपिंग मार्गदर्शक", slab: "स्लॅब", local: "स्थानिक", regional: "प्रादेशिक", national: "राष्ट्रीय", retTitle: "रिटर्न", retText: "RTO: मोफत | ग्राहक रिटर्न: ₹२०-₹१२०+"
+        },
+        te: {
+            subHeader: "అడ్వాన్స్డ్ ప్రాఫిట్ అనలైజర్", badgeMaster: "మాస్టర్ షీట్", titleRealProfit: "మీషో నిజమైన లాభం",
+            lblSp: "అమ్మకపు ధర (₹)", lblGst: "అమ్మకంపై GST %", lblComm: "కమిషన్ %", lblCac: "CAC (యాడ్స్)", lblShip: "షిప్పింగ్ (₹)", lblRetC: "రిటర్న్ ఖర్చు (₹)",
+            btnGuide: "షిప్పింగ్ ఛార్జీల గైడ్", lblPkg: "ప్యాకేజింగ్ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ఉత్పత్తి ఖర్చు (₹)", lblNetReal: "నికర నిజమైన లాభం",
+            badgeSummary: "స్కేల్ మెట్రిక్స్", titleMonthly: "నెలవారీ సారాంశం", lblOrders: "మొత్తం ఆర్డర్లు", lblRto: "RTO %", lblRet: "రిటర్న్ %", lblNetMonth: "నికర నెలవారీ లాభం",
+            btnDownload: "ಆಡಿಟ್ ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ", modalTitle: "షిప్పింగ్ గైడ్", slab: "స్లాబ్", local: "స్థానిక", regional: "ప్రాంతీయ", national: "జాతీయ", retTitle: "రిటర్న్స్", retText: "RTO: ఉచితం | కస్టమర్ రిటర్న్: ₹20–₹120+"
+        },
+        ta: {
+            subHeader: "மேம்பட்ட லாப பகுப்பாய்வி", badgeMaster: "மாஸ்டர் ஷீட்", titleRealProfit: "மீஷோ உண்மையான லாபம்",
+            lblSp: "விற்பனை விலை (₹)", lblGst: "விற்பனை மீது GST %", lblComm: "கம்மிஷன் %", lblCac: "CAC (விளம்பரம்)", lblShip: "ஷிப்பிங் (₹)", lblRetC: "திரும்பப் பெறுதல் செலவு (₹)",
+            btnGuide: "ஷிப்பிங் கட்டண வழிகாட்டி", lblPkg: "பேக்கேஜிங் (₹)", lblTax: "TCS/TDS (₹)", lblPc: "தயாரிப்பு செலவு (₹)", lblNetReal: "நிகர உண்மையான லாபம்",
+            badgeSummary: "அளவீட்டு மெட்ரிக்ஸ்", titleMonthly: "மாதாந்திர சுருக்கம்", lblOrders: "மொத்த ஆர்டர்கள்", lblRto: "RTO %", lblRet: "திரும்பப் பெறுதல் %", lblNetMonth: "நிகர மாதாந்திர லாபம்",
+            btnDownload: "தணிக்கை அறிக்கையைப் பதிவிறக்கவும்", modalTitle: "ஷிப்பிங் வழிகாட்டி", slab: "அடுக்கு", local: "உள்ளூர்", regional: "வட்டாரம்", national: "தேசியம்", retTitle: "திரும்பப் பெறுதல்", retText: "RTO: இலவசம் | வாடிக்கையாளர் திரும்பப் பெறுதல்: ₹20–₹120+"
+        },
+        gu: {
+            subHeader: "એડવાન્સ્ડ પ્રોફિટ એનાલાઇઝર", badgeMaster: "માસ્ટર શીટ", titleRealProfit: "મીશો વાસ્તવિક નફો",
+            lblSp: "વેચાણ કિંમત (₹)", lblGst: "વેચાણ પર GST %", lblComm: "કમિશન %", lblCac: "CAC (જાહેરાત)", lblShip: "શિપિંગ (₹)", lblRetC: "રિટર્ન ખર્ચ (₹)",
+            btnGuide: "શિપિંગ ચાર્જ માર્ગદર્શિકા", lblPkg: "પેકેજિંગ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ઉત્પાદન ખર્ચ (₹)", lblNetReal: "ચોખ્ખો વાસ્તવિક નફો",
+            badgeSummary: "સ્કેલ મેટ્રિક્સ", titleMonthly: "માસિક સારાંશ", lblOrders: "કુલ ઓર્ડર", lblRto: "RTO %", lblRet: "રિટર્ન %", lblNetMonth: "ચોખ્ખો માસિક નફો",
+            btnDownload: "ઓડિટ રિપોર્ટ ડાઉનલોડ કરો", modalTitle: "શિપિંગ ગાઇડ", slab: "સ્લેબ", local: "સ્થાનિક", regional: "પ્રાદેશિક", national: "રાષ્ટ્રીય", retTitle: "રિટર્ન્સ", retText: "RTO: મફત | ગ્રાહક રિટર્ન: ₹20–₹120+"
+        },
+        ur: {
+            subHeader: "اعلی درجے کا منافع تجزیہ کار", badgeMaster: "ماسٹر شیٹ", titleRealProfit: "میشو اصل منافع",
+            lblSp: "(₹) قیمت فروخت", lblGst: "فروخت پر جی ایس ٹی %", lblComm: "کمیشن %", lblCac: "اشتہارات کی لاگت", lblShip: "(₹) شپنگ", lblRetC: "(₹) واپسی کی لاگت",
+            btnGuide: "شپنگ چارجز گائیڈ", lblPkg: "(₹) پیکیجنگ", lblTax: "(₹) ٹیکس", lblPc: "(₹) مصنوعات کی لاگت", lblNetReal: "خالص اصل منافع",
+            badgeSummary: "پیمانہ میٹرکس", titleMonthly: "ماہانہ خلاصہ", lblOrders: "کل آرڈرز", lblRto: "RTO %", lblRet: "واپسی %", lblNetMonth: "خالص ماہانہ منافع",
+            btnDownload: "آڈٹ رپورٹ ڈاؤن لوڈ کریں", modalTitle: "شپنگ گائیڈ", slab: "سلیب", local: "مقامی", regional: "علاقائی", national: "قومی", retTitle: "واپسی", retText: "مفت | کسٹمر کی واپسی: ₹20–₹120+ :RTO"
+        },
+        kn: {
+            subHeader: "ಸುಧಾರಿತ ಲಾಭ ವಿಶ್ಲೇಷಕ", badgeMaster: "ಮಾಸ್ಟರ್ ಶೀಟ್", titleRealProfit: "ಮೀಶೋ ನೈಜ ಲಾಭ",
+            lblSp: "ಮಾರಾಟದ ಬೆಲೆ (₹)", lblGst: "ಮಾರಾಟದ ಮೇಲೆ GST %", lblComm: "ಕಮಿಷನ್ %", lblCac: "CAC (ಜಾಹೀರಾತು)", lblShip: "ಶಿಪ್ಪಿಂಗ್ (₹)", lblRetC: "ರಿಟರ್ನ್ ವೆಚ್ಚ (₹)",
+            btnGuide: "ಶಿಪ್ಪಿಂಗ್ ದರಗಳ ಮಾಹಿತಿ", lblPkg: "ಪ್ಯಾಕೇಜಿಂಗ್ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ಉತ್ಪನ್ನದ ವೆಚ್ಚ (₹)", lblNetReal: "ನಿವ್ವಳ ನೈಜ ಲಾಭ",
+            badgeSummary: "ಸ್ಕೇಲ್ ಮೆಟ್ರಿಕ್ಸ್", titleMonthly: "ಮಾಸಿಕ ಸಾರಾಂಶ", lblOrders: "ಒಟ್ಟು ಆರ್ಡರ್‌ಗಳು", lblRto: "RTO %", lblRet: "ರಿಟರ್ನ್ %", lblNetMonth: "ನಿವ್ವಳ ಮಾಸಿಕ ಲಾಭ",
+            btnDownload: "ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ", modalTitle: "ಶಿಪ್ಪಿಂಗ್ ಮಾಹಿತಿ", slab: "ಸ್ಲ್ಯಾಬ್", local: "ಸ್ಥಳೀಯ", regional: "ಪ್ರಾದೇಶಿಕ", national: "ರಾಷ್ಟ್ರೀಯ", retTitle: "ರಿಟರ್ನ್ಸ್", retText: "RTO: ಉಚಿತ | ಗ್ರಾಹಕ ರಿಟರ್ನ್: ₹20–₹120+"
+        },
+        or: {
+            subHeader: "ଉନ୍ନତ ଲାଭ ବିଶ୍ଳେଷକ", badgeMaster: "ମାଷ୍ଟର ଶିଟ୍", titleRealProfit: "ମିଶୋ ପ୍ରକୃତ ଲାଭ",
+            lblSp: "ବିକ୍ରୟ ମୂଲ୍ୟ (₹)", lblGst: "ବିକ୍ରୟ ଉପରେ GST %", lblComm: "କମିଶନ %", lblCac: "ବିଜ୍ଞାପନ ଖର୍ଚ୍ଚ", lblShip: "ସିପିଂ (₹)", lblRetC: "ରିଟର୍ନ ଖର୍ଚ୍ଚ (₹)",
+            btnGuide: "ସିପିଂ ଚାର୍ଜ ଗାଇଡ୍", lblPkg: "ପ୍ୟାକେଜିଂ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ଉତ୍ପାଦ ମୂଲ୍ୟ (₹)", lblNetReal: "ନିଟ୍ ପ୍ରକୃତ ଲାଭ",
+            badgeSummary: "ସ୍କେଲ ମେଟ୍ରିକ୍ସ", titleMonthly: "ମାସಿಕ ସାରାଂಶ", lblOrders: "ମୋଟ ଅର୍ଡର", lblRto: "RTO %", lblRet: "ରିଟର୍ନ %", lblNetMonth: "ନିଟ୍ ମାସିକ ଲାଭ",
+            btnDownload: "ରିପୋର୍ଟ ଡାଉନଲୋଡ୍ କରନ୍ତୁ", modalTitle: "ସିପିଂ ଗାଇଡ୍", slab: "ସ୍ଲାବ୍", local: "ସ୍ଥାନୀୟ", regional: "ଆଞ୍ಚଳିକ", national: "ଜାତୀୟ", retTitle: "ରିଟର୍ନ", retText: "RTO: ମାଗଣା | ଗ୍ରାହକ ରିଟର୍ନ: ₹୨୦-₹୧୨୦+"
+        },
+        ml: {
+            subHeader: "അഡ്വാൻസ്ഡ് ലാഭ വിശകലന ഉപകരണം", badgeMaster: "മാസ്റ്റർ ഷീറ്റ്", titleRealProfit: "മീഷോ യഥാർത്ഥ ലാഭം",
+            lblSp: "വിൽപന വില (₹)", lblGst: "ജിഎസ്ടി %", lblComm: "കമ്മീഷൻ %", lblCac: "പരസ്യ ചെലവ്", lblShip: "ഷിപ്പിംഗ് (₹)", lblRetC: "തിരിച്ചയക്കൽ ചെലവ് (₹)",
+            btnGuide: "ഷിപ്പിംഗ് ചാർജ് ഗൈഡ്", lblPkg: "പാക്കേജിംഗ് (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ഉൽപ്പന്ന വില (₹)", lblNetReal: "യഥാർത്ഥ ലാഭം",
+            badgeSummary: "സ്കെയിൽ മെട്രിക്സ്", titleMonthly: "പ്രതിമാസ സംഗ്രഹം", lblOrders: "ആകെ ഓർഡറുകൾ", lblRto: "RTO %", lblRet: "തിരിച്ചയക്കൽ %", lblNetMonth: "പ്രതിമാസ ലാഭം",
+            btnDownload: "റിപ്പോർട്ട് ഡൗൺലോഡ് ചെയ്യുക", modalTitle: "ഷിപ്പിംഗ് ഗൈഡ്", slab: "സ്ലാബ്", local: "ലോക്കൽ", regional: "റീജിയണൽ", national: "നാഷണൽ", retTitle: "തിരിച്ചയക്കൽ", retText: "RTO: സൗജന്യം | കസ്റ്റമർ റിട്ടേൺ: ₹20–₹120+"
         }
     };
 
@@ -545,34 +459,29 @@
             if(dict[key]) el.textContent = dict[key];
         });
         
-        const staticIds = ['subHeader','badgeMaster','titleRealProfit','btnGuide','lblNetReal','badgeSummary','titleMonthly','lblNetMonth','btnDownload','modalTitle'];
-        staticIds.forEach(id => {
-            if(dict[id]) document.getElementById(id).textContent = dict[id];
+        ['subHeader','badgeMaster','titleRealProfit','btnGuide','lblNetReal','badgeSummary','titleMonthly','lblNetMonth','btnDownload','modalTitle','retTitle','retText'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el && dict[id]) el.textContent = dict[id];
         });
     }
 
     function initParticles() {
         const container = document.getElementById('particle-container');
-        const particles = document.querySelectorAll('.particle');
-        particles.forEach((p, i) => {
+        container.innerHTML = '';
+        for(let i=0; i<30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
             const size = Math.floor(Math.random() * 6) + 4;
             p.style.width = `${size}px`; p.style.height = `${size}px`;
-            p.style.background = `rgba(255,255,255, ${0.4 + Math.random() * 0.4})`;
             p.style.setProperty('--x1', `${Math.random() * 100}vw`);
             p.style.setProperty('--y1', `${Math.random() * 100}vh`);
             p.style.setProperty('--x2', `${Math.random() * 100}vw`);
             p.style.setProperty('--y2', `${Math.random() * 100}vh`);
-            p.style.animation = `particle-anim ${25 + Math.random() * 50}s infinite alternate linear`;
-            p.style.animationDelay = `-${i * 1.5}s`;
-        });
+            p.style.animation = `particle-anim ${25 + Math.random() * 40}s infinite alternate linear`;
+            p.style.animationDelay = `-${Math.random() * 20}s`;
+            container.appendChild(p);
+        }
     }
-
-    function openModal() { document.getElementById('shippingModal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('shippingModal').style.display = 'none'; }
-
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.info-trigger').forEach(t => t.classList.remove('active'));
-    });
 
     function calculate() {
         const sp = parseFloat(document.getElementById('sp').value) || 0;
@@ -595,23 +504,19 @@
         
         const realProfit = sp - gstOnSale - commission - cac - retCost - pkg - ship - tax - pc + itcOnProduct;
         
-        const profitEl = document.getElementById('realProfit');
-        const profitBox = document.getElementById('realProfitBox');
-        const monthlyBox = document.getElementById('monthlyBox');
+        document.getElementById('realProfit').textContent = `₹${realProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        
         const statusEmoji = document.getElementById('statusEmoji');
-        
-        profitEl.textContent = `₹${realProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
-        
         if (realProfit >= 0) {
             document.body.style.background = 'var(--profit-bg)';
-            profitBox.className = 'result-box is-profit';
-            monthlyBox.className = 'result-box is-profit';
-            statusEmoji.textContent = '💰';
+            document.getElementById('realProfitBox').className = 'result-box is-profit';
+            document.getElementById('monthlyBox').className = 'result-box is-profit';
+            statusEmoji.textContent = '🥳';
         } else {
             document.body.style.background = 'var(--loss-bg)';
-            profitBox.className = 'result-box is-loss';
-            monthlyBox.className = 'result-box is-loss';
-            statusEmoji.textContent = '📉';
+            document.getElementById('realProfitBox').className = 'result-box is-loss';
+            document.getElementById('monthlyBox').className = 'result-box is-loss';
+            statusEmoji.textContent = '😒';
         }
 
         const netDelivered = totalOrders * (1 - (rtoPct + retPct)/100);
@@ -619,24 +524,20 @@
         document.getElementById('netMonthly').textContent = `₹${Math.round(netMonthlyProfit).toLocaleString('en-IN')}`;
     }
 
+    function openModal() { document.getElementById('shippingModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('shippingModal').style.display = 'none'; }
+
     async function exportReport() {
         const capture = document.querySelector('#capture-area');
-        const canvas = await html2canvas(capture, { 
-            backgroundColor: null, 
-            scale: 2,
-            useCORS: true
-        });
+        const canvas = await html2canvas(capture, { backgroundColor: null, scale: 2 });
         const link = document.createElement('a');
-        link.download = `Meesho_Pro_Report.png`;
+        link.download = `Meesho_Audit_Report.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
     }
 
     document.querySelectorAll('input').forEach(input => input.addEventListener('input', calculate));
-    window.onload = () => {
-        initParticles();
-        calculate();
-    };
+    window.onload = () => { initParticles(); calculate(); };
 </script>
 </body>
 </html>
