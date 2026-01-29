@@ -40,7 +40,7 @@
             position: relative;
         }
 
-        /* Particles restored */
+        /* Particles Restored and Enhanced */
         #particle-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -52,8 +52,9 @@
         .particle { 
             position: absolute; 
             border-radius: 50%; 
-            opacity: 0.4;
-            background: white;
+            opacity: 0.5;
+            background: rgba(255, 255, 255, 0.8);
+            filter: blur(1px);
         }
 
         @keyframes particle-anim {
@@ -178,6 +179,19 @@
         .result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; opacity: 0.9; }
         .result-value { font-size: 32px; font-weight: 900; }
 
+        .suggestion-box {
+            margin-top: 12px;
+            padding: 15px;
+            border-radius: 18px;
+            background: #fff;
+            border: 2px dashed var(--meesho-pink);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .suggestion-text { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+        .suggestion-price { font-size: 18px; font-weight: 800; color: var(--meesho-pink); }
+
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.6); display: none; justify-content: center;
@@ -249,12 +263,21 @@
             <h2 id="titleRealProfit">Meesho Real Profit</h2>
             
             <div class="input-grid">
+                <!-- 1. Product Cost -->
                 <div class="label-wrap">
-                    <span class="label" data-key="lblSp">Selling Price (₹)</span>
+                    <span class="label" data-key="lblPc">Product Cost (₹)</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipSp">The final price customer pays on Meesho.</div>
+                    <div class="tooltip-box" data-key="tipPc">Your sourcing price.</div>
                 </div>
-                <input type="number" id="sp" value="599">
+                <input type="number" id="pc" value="280">
+
+                <!-- 2. Target Profit -->
+                <div class="label-wrap">
+                    <span class="label" data-key="lblTarget">Target Profit (₹)</span>
+                    <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
+                    <div class="tooltip-box" data-key="tipTarget">Type how much profit you want per order.</div>
+                </div>
+                <input type="number" id="targetProfitInput" value="100">
 
                 <div class="label-wrap">
                     <span class="label" data-key="lblGst">GST % on Sale</span>
@@ -307,12 +330,18 @@
                 </div>
                 <input type="number" id="tax" value="6">
 
+                <!-- 10. Selling Price -->
                 <div class="label-wrap">
-                    <span class="label" data-key="lblPc">Product Cost (₹)</span>
+                    <span class="label" data-key="lblSp">Selling Price (₹)</span>
                     <div class="info-trigger" onclick="event.stopPropagation(); toggleTooltip(this)">i</div>
-                    <div class="tooltip-box" data-key="tipPc">Your sourcing price.</div>
+                    <div class="tooltip-box" data-key="tipSp">The final price customer pays on Meesho.</div>
                 </div>
-                <input type="number" id="pc" value="280">
+                <input type="number" id="sp" value="599">
+            </div>
+
+            <div class="suggestion-box">
+                <span class="suggestion-text" data-key="lblSuggest">Suggested Price:</span>
+                <span class="suggestion-price" id="suggestedSp">₹0</span>
             </div>
 
             <div class="result-box" id="realProfitBox">
@@ -356,6 +385,7 @@
         en: {
             subHeader: "Advanced Profit Analyzer", badgeMaster: "Master Sheet", titleRealProfit: "Meesho Real Profit",
             lblSp: "Selling Price (₹)", tipSp: "Final price shown to customer.",
+            lblTarget: "Target Profit (₹)", tipTarget: "Type how much profit you want per order.",
             lblGst: "GST % on Sale", tipGst: "Output tax on selling price.",
             lblComm: "Commission %", tipComm: "Marketplace fee.",
             lblCac: "CAC (Ads/Order)", tipCac: "Cost per acquisition via ads.",
@@ -365,7 +395,7 @@
             lblPkg: "Packaging (₹)", tipPkg: "Bags, tape, labels.",
             lblTax: "TCS/TDS (₹)", tipTax: "Statutory deductions.",
             lblPc: "Product Cost (₹)", tipPc: "Your sourcing price.",
-            lblNetReal: "Net Real Profit",
+            lblNetReal: "Net Real Profit", lblSuggest: "Suggested Price:",
             badgeSummary: "Scale Metrics", titleMonthly: "Monthly Summary",
             lblOrders: "Total Orders", lblRto: "RTO %", lblRet: "Return %",
             lblNetMonth: "Net Monthly Profit", btnDownload: "Download Audit Report",
@@ -374,73 +404,93 @@
         },
         hi: {
             subHeader: "उन्नत लाभ विश्लेषक", badgeMaster: "मास्टर शीट", titleRealProfit: "मीशो वास्तविक लाभ",
-            lblSp: "विक्रय मूल्य (₹)", lblGst: "बिक्री पर GST %", lblComm: "कमीशन %", lblCac: "CAC (विज्ञापन)", lblShip: "शिपिंग (₹)", lblRetC: "रिटर्न लागत (₹)",
+            lblSp: "विक्रय मूल्य (₹)", lblTarget: "लक्ष्य लाभ (₹)", tipTarget: "प्रति ऑर्डर आप कितना लाभ चाहते हैं, लिखें।",
+            lblGst: "बिक्री पर GST %", lblComm: "कमीशन %", lblCac: "CAC (विज्ञापन)", lblShip: "शिपिंग (₹)", lblRetC: "रिटर्न लागत (₹)",
             btnGuide: "शिपिंग शुल्क गाइड", lblPkg: "पैकेजिंग (₹)", lblTax: "TCS/TDS (₹)", lblPc: "उत्पाद लागत (₹)", lblNetReal: "शुद्ध वास्तविक लाभ",
-            badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक सारांश", lblOrders: "कुल ऑर्डर", lblRto: "RTO %", lblRet: "रिटर्न %", lblNetMonth: "शुद्ध मासिक लाभ",
-            btnDownload: "ऑडिट रिपोर्ट डाउनलोड करें", modalTitle: "शिपिंग गाइड", slab: "स्लैब", local: "स्थानीय", regional: "क्षेत्रीय", national: "राष्ट्रीय", retTitle: "रिटर्न", retText: "RTO: निःशुल्क | ग्राहक रिटर्न: ₹20-₹120+"
+            lblSuggest: "सुझाया गया मूल्य:", badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक सारांश", lblOrders: "कुल ऑर्डर",
+            lblRto: "RTO %", lblRet: "रिटर्न %", lblNetMonth: "शुद्ध मासिक लाभ", btnDownload: "रिपोर्ट डाउनलोड करें",
+            modalTitle: "शिपिंग गाइड", slab: "स्लैब", local: "स्थानीय", regional: "क्षेत्रीय", national: "राष्ट्रीय", retTitle: "रिटर्न", retText: "RTO: मुफ्त | रिटर्न: ₹20-₹120+"
         },
         bn: {
             subHeader: "উন্নত লাভ বিশ্লেষক", badgeMaster: "মাস্টার শিট", titleRealProfit: "মিশো প্রকৃত লাভ",
-            lblSp: "বিক্রয় মূল্য (₹)", lblGst: "বিক্রয়ের ওপর GST %", lblComm: "কমিশন %", lblCac: "CAC (অ্যাড)", lblShip: "শিপিং (₹)", lblRetC: "রিটার্ন খরচ (₹)",
+            lblSp: "বিক্রয় মূল্য (₹)", lblTarget: "টার্গেট লাভ (₹)", tipTarget: "অর্ডার প্রতি আপনি কত লাভ করতে চান তা লিখুন।",
+            lblGst: "বিক্রয়ের ওপর GST %", lblComm: "কমিশন %", lblCac: "CAC (অ্যাড)", lblShip: "শিপিং (₹)", lblRetC: "রিটার্ন খরচ (₹)",
             btnGuide: "শিপিং চার্জ গাইড", lblPkg: "প্যাকেজিং (₹)", lblTax: "TCS/TDS (₹)", lblPc: "পণ্য খরচ (₹)", lblNetReal: "প্রকৃত নিট লাভ",
-            badgeSummary: "স্কেল মেট্রিক্স", titleMonthly: "মাসিক সারাংশ", lblOrders: "মোট অর্ডার", lblRto: "RTO %", lblRet: "রিটার্ন %", lblNetMonth: "মাসিক নিট লাভ",
-            btnDownload: "অডিট রিপোর্ট ডাউনলোড করুন", modalTitle: "শিপিং গাইড", slab: "স্ল্যাব", local: "লোকাল", regional: "রিজিওনাল", national: "ন্যাশনাল", retTitle: "রিটার্ন", retText: "RTO: ফ্রি | কাস্টমার রিটার্ন: ₹২০-₹১২০+"
+            lblSuggest: "প্রস্তাবিত মূল্য:", badgeSummary: "স্কেল মেট্রিক্স", titleMonthly: "মাসিক সারাংশ", lblOrders: "মোট অর্ডার",
+            lblRto: "RTO %", lblRet: "রিটার্ন %", lblNetMonth: "মাসিক নিট লাভ", btnDownload: "রিপোর্ট ডাউনলোড করুন",
+            modalTitle: "শিপিং গাইড", slab: "স্ল্যাব", local: "লোকাল", regional: "রিজিওনাল", national: "ন্যাশনাল", retTitle: "রিটার্ন", retText: "RTO: ফ্রি | রিটার্ন: ₹২০-₹১২০+"
         },
         mr: {
             subHeader: "प्रगत नफा विश्लेषक", badgeMaster: "मास्टर शीट", titleRealProfit: "मीशो वास्तविक नफा",
-            lblSp: "विक्री किंमत (₹)", lblGst: "विक्रीवर GST %", lblComm: "कमीशन %", lblCac: "CAC (जाहिरात)", lblShip: "शिपिंग (₹)", lblRetC: "रिटर्न खर्च (₹)",
+            lblSp: "विक्री किंमत (₹)", lblTarget: "लक्ष्य नफा (₹)", tipTarget: "प्रत्येक ऑर्डरमागे तुम्हाला किती नफा हवा आहे ते टाइप करा.",
+            lblGst: "विक्रीवर GST %", lblComm: "कमीशन %", lblCac: "CAC (जाहिरात)", lblShip: "शिपिंग (₹)", lblRetC: "रिटर्न खर्च (₹)",
             btnGuide: "शिपिंग शुल्क मार्गदर्शक", lblPkg: "पॅकेजिंग (₹)", lblTax: "TCS/TDS (₹)", lblPc: "उत्पादन खर्च (₹)", lblNetReal: "निव्वळ वास्तविक नफा",
-            badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक सारांश", lblOrders: "एकूण ऑर्डर", lblRto: "RTO %", lblRet: "रिटर्न %", lblNetMonth: "निव्वळ मासिक नफा",
-            btnDownload: "ऑडिट रिपोर्ट डाउनलोड करा", modalTitle: "शिपिंग मार्गदर्शक", slab: "स्लॅब", local: "स्थानिक", regional: "प्रादेशिक", national: "राष्ट्रीय", retTitle: "रिटर्न", retText: "RTO: मोफत | ग्राहक रिटर्न: ₹२०-₹१२०+"
+            lblSuggest: "सुचवलेली किंमत:", badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक सारांश", lblOrders: "एकूण ऑर्डर",
+            lblRto: "RTO %", lblRet: "रिटर्न %", lblNetMonth: "निव्वळ मासिक नफा", btnDownload: "रिपोर्ट डाउनलोड करा",
+            modalTitle: "शिपिंग मार्गदर्शक", slab: "स्लॅब", local: "स्थानिक", regional: "प्रादेशिक", national: "राष्ट्रीय", retTitle: "रिटर्न", retText: "RTO: मोफत | रिटर्न: ₹२०-₹१२०+"
         },
         te: {
             subHeader: "అడ్వాన్స్డ్ ప్రాఫిట్ అనలైజర్", badgeMaster: "మాస్టర్ షీట్", titleRealProfit: "మీషో నిజమైన లాభం",
-            lblSp: "అమ్మకపు ధర (₹)", lblGst: "అమ్మకంపై GST %", lblComm: "కమిషన్ %", lblCac: "CAC (యాడ్స్)", lblShip: "షిప్పింగ్ (₹)", lblRetC: "రిటర్న్ ఖర్చు (₹)",
+            lblSp: "అమ్మకపు ధర (₹)", lblTarget: "లక్ష్య లాభం (₹)", tipTarget: "ప్రతి ఆర్డర్‌కు మీకు ఎంత లాభం కావాలో టైప్ చేయండి.",
+            lblGst: "అమ్మకంపై GST %", lblComm: "కమిషన్ %", lblCac: "CAC (యాడ్స్)", lblShip: "షిప్పింగ్ (₹)", lblRetC: "రిటర్న్ ఖర్చు (₹)",
             btnGuide: "షిప్పింగ్ ఛార్జీల గైడ్", lblPkg: "ప్యాకేజింగ్ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ఉత్పత్తి ఖర్చు (₹)", lblNetReal: "నికర నిజమైన లాభం",
-            badgeSummary: "స్కేల్ మెట్రిక్స్", titleMonthly: "నెలవారీ సారాంశం", lblOrders: "మొత్తం ఆర్డర్లు", lblRto: "RTO %", lblRet: "రిటర్న్ %", lblNetMonth: "నికర నెలవారీ లాభం",
-            btnDownload: "ಆಡಿಟ್ ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ", modalTitle: "షిప్పింగ్ గైడ్", slab: "స్లాబ్", local: "స్థానిక", regional: "ప్రాంతీయ", national: "జాతీయ", retTitle: "రిటర్న్స్", retText: "RTO: ఉచితం | కస్టమర్ రిటర్న్: ₹20–₹120+"
+            lblSuggest: "సూచించిన ధర:", badgeSummary: "స్కేల్ మెట్రిక్స్", titleMonthly: "నెలవారీ సారాంశం", lblOrders: "మొత్తం ఆర్డర్లు",
+            lblRto: "RTO %", lblRet: "రిటర్న్ %", lblNetMonth: "నికర నెలవారీ లాభం", btnDownload: "రిపోర్ట్ డౌన్‌లోడ్",
+            modalTitle: "షిప్పింగ్ గైడ్", slab: "స్లాబ్", local: "స్థానిక", regional: "ప్రాంతీయ", national: "జాతీయ", retTitle: "రిటర్న్స్", retText: "RTO: ఉచితం | రిటర్న్: ₹20-₹120+"
         },
         ta: {
             subHeader: "மேம்பட்ட லாப பகுப்பாய்வி", badgeMaster: "மாஸ்டர் ஷீட்", titleRealProfit: "மீஷோ உண்மையான லாபம்",
-            lblSp: "விற்பனை விலை (₹)", lblGst: "விற்பனை மீது GST %", lblComm: "கம்மிஷன் %", lblCac: "CAC (விளம்பரம்)", lblShip: "ஷிப்பிங் (₹)", lblRetC: "திரும்பப் பெறுதல் செலவு (₹)",
+            lblSp: "விற்பனை விலை (₹)", lblTarget: "இலக்கு லாபம் (₹)", tipTarget: "ஒரு ஆர்டருக்கு எவ்வளவு லாபம் வேண்டும் என்று தட்டச்சு செய்யவும்.",
+            lblGst: "விற்பனை மீது GST %", lblComm: "கம்மிஷன் %", lblCac: "CAC (விளம்பரம்)", lblShip: "ஷிப்பிங் (₹)", lblRetC: "திரும்பப் பெறுதல் செலவு (₹)",
             btnGuide: "ஷிப்பிங் கட்டண வழிகாட்டி", lblPkg: "பேக்கேஜிங் (₹)", lblTax: "TCS/TDS (₹)", lblPc: "தயாரிப்பு செலவு (₹)", lblNetReal: "நிகர உண்மையான லாபம்",
-            badgeSummary: "அளவீட்டு மெட்ரிக்ஸ்", titleMonthly: "மாதாந்திர சுருக்கம்", lblOrders: "மொத்த ஆர்டர்கள்", lblRto: "RTO %", lblRet: "திரும்பப் பெறுதல் %", lblNetMonth: "நிகர மாதாந்திர லாபம்",
-            btnDownload: "தணிக்கை அறிக்கையைப் பதிவிறக்கவும்", modalTitle: "ஷிப்பிங் வழிகாட்டி", slab: "அடுக்கு", local: "உள்ளூர்", regional: "வட்டாரம்", national: "தேசியம்", retTitle: "திரும்பப் பெறுதல்", retText: "RTO: இலவசம் | வாடிக்கையாளர் திரும்பப் பெறுதல்: ₹20–₹120+"
+            lblSuggest: "பரிந்துரைக்கப்பட்ட விலை:", badgeSummary: "அளவீட்டு மெட்ரிக்ஸ்", titleMonthly: "மாதாந்திர சுருக்கம்", lblOrders: "மொத்த ஆர்டர்கள்",
+            lblRto: "RTO %", lblRet: "திரும்பப் பெறுதல் %", lblNetMonth: "நிகர மாதாந்திர லாபம்", btnDownload: "அறிக்கையைப் பதிவிறக்கவும்",
+            modalTitle: "ஷிப்பிங் வழிகாட்டி", slab: "அடுக்கு", local: "உள்ளூர்", regional: "வட்டாரம்", national: "தேசியம்", retTitle: "திரும்பப் பெறுதல்", retText: "RTO: இலவசம் | ரிட்டர்ன்: ₹20-₹120+"
         },
         gu: {
             subHeader: "એડવાન્સ્ડ પ્રોફિટ એનાલાઇઝર", badgeMaster: "માસ્ટર શીટ", titleRealProfit: "મીશો વાસ્તવિક નફો",
-            lblSp: "વેચાણ કિંમત (₹)", lblGst: "વેચાણ પર GST %", lblComm: "કમિશન %", lblCac: "CAC (જાહેરાત)", lblShip: "શિપિંગ (₹)", lblRetC: "રિટર્ન ખર્ચ (₹)",
+            lblSp: "વેચાણ કિંમત (₹)", lblTarget: "લક્ષ્ય નફો (₹)", tipTarget: "ઓર્ડર દીઠ તમને કેટલો નફો જોઈએ છે તે લખો.",
+            lblGst: "વેચાણ પર GST %", lblComm: "કમિશન %", lblCac: "CAC (જાહેરાત)", lblShip: "શિપિંગ (₹)", lblRetC: "રિટર્ન ખર્ચ (₹)",
             btnGuide: "શિપિંગ ચાર્જ માર્ગદર્શિકા", lblPkg: "પેકેજિંગ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ઉત્પાદન ખર્ચ (₹)", lblNetReal: "ચોખ્ખો વાસ્તવિક નફો",
-            badgeSummary: "સ્કેલ મેટ્રિક્સ", titleMonthly: "માસિક સારાંશ", lblOrders: "કુલ ઓર્ડર", lblRto: "RTO %", lblRet: "રિટર્ન %", lblNetMonth: "ચોખ્ખો માસિક નફો",
-            btnDownload: "ઓડિટ રિપોર્ટ ડાઉનલોડ કરો", modalTitle: "શિપિંગ ગાઇડ", slab: "સ્લેબ", local: "સ્થાનિક", regional: "પ્રાદેશિક", national: "રાષ્ટ્રીય", retTitle: "રિટર્ન્સ", retText: "RTO: મફત | ગ્રાહક રિટર્ન: ₹20–₹120+"
+            lblSuggest: "સૂચિત કિંમત:", badgeSummary: "સ્કેલ મેટ્રિક્સ", titleMonthly: "માસિક સારાંશ", lblOrders: "કુલ ઓર્ડર",
+            lblRto: "RTO %", lblRet: "રિટર્ન %", lblNetMonth: "ચોખ્ખો માસિક નફો", btnDownload: "રિપોર્ટ ડાઉનલોડ કરો",
+            modalTitle: "શિપિંગ ગાઇડ", slab: "સ્લેબ", local: "સ્થાનિક", regional: "પ્રાદેશિક", national: "રાષ્ટ્રીય", retTitle: "રિટર્ન્સ", retText: "RTO: મફત | રિટર્ન: ₹20-₹120+"
         },
         ur: {
             subHeader: "اعلی درجے کا منافع تجزیہ کار", badgeMaster: "ماسٹر شیٹ", titleRealProfit: "میشو اصل منافع",
-            lblSp: "(₹) قیمت فروخت", lblGst: "فروخت پر جی ایس ٹی %", lblComm: "کمیشن %", lblCac: "اشتہارات کی لاگت", lblShip: "(₹) شپنگ", lblRetC: "(₹) واپسی کی لاگت",
+            lblSp: "(₹) قیمت فروخت", lblTarget: "ہدف منافع (₹)", tipTarget: "لکھیں کہ آپ فی آرڈر کتنا منافع چاہتے ہیں۔",
+            lblGst: "فروخت پر جی ایس ٹی %", lblComm: "کمیشن %", lblCac: "اشتہارات کی لاگت", lblShip: "(₹) شپنگ", lblRetC: "(₹) واپسی کی لاگت",
             btnGuide: "شپنگ چارجز گائیڈ", lblPkg: "(₹) پیکیجنگ", lblTax: "(₹) ٹیکس", lblPc: "(₹) مصنوعات کی لاگت", lblNetReal: "خالص اصل منافع",
-            badgeSummary: "پیمانہ میٹرکس", titleMonthly: "ماہانہ خلاصہ", lblOrders: "کل آرڈرز", lblRto: "RTO %", lblRet: "واپسی %", lblNetMonth: "خالص ماہانہ منافع",
-            btnDownload: "آڈٹ رپورٹ ڈاؤن لوڈ کریں", modalTitle: "شپنگ گائیڈ", slab: "سلیب", local: "مقامی", regional: "علاقائی", national: "قومی", retTitle: "واپسی", retText: "مفت | کسٹمر کی واپسی: ₹20–₹120+ :RTO"
+            lblSuggest: "تجویز کردہ قیمت:", badgeSummary: "پیمانہ میٹرکس", titleMonthly: "ماہانہ خلاصہ", lblOrders: "کل آرڈرز",
+            lblRto: "RTO %", lblRet: "واپسی %", lblNetMonth: "خالص ماہانہ منافع", btnDownload: "آڈٹ رپورٹ",
+            modalTitle: "شپنگ گائیڈ", slab: "سلیب", local: "مقامی", regional: "علاقائی", national: "قومی", retTitle: "واپسی", retText: "مفت :RTO | واپسی: ₹20-₹120+"
         },
         kn: {
             subHeader: "ಸುಧಾರಿತ ಲಾಭ ವಿಶ್ಲೇಷಕ", badgeMaster: "ಮಾಸ್ಟರ್ ಶೀಟ್", titleRealProfit: "ಮೀಶೋ ನೈಜ ಲಾಭ",
-            lblSp: "ಮಾರಾಟದ ಬೆಲೆ (₹)", lblGst: "ಮಾರಾಟದ ಮೇಲೆ GST %", lblComm: "ಕಮಿಷನ್ %", lblCac: "CAC (ಜಾಹೀರಾತು)", lblShip: "ಶಿಪ್ಪಿಂಗ್ (₹)", lblRetC: "ರಿಟರ್ನ್ ವೆಚ್ಚ (₹)",
+            lblSp: "ಮಾರಾಟದ ಬೆಲೆ (₹)", lblTarget: "ಗುರಿಯ ಲಾಭ (₹)", tipTarget: "ಪ್ರತಿ ಆರ್ಡರ್‌ಗೆ ನಿಮಗೆ ಎಷ್ಟು ಲಾಭ ಬೇಕು ಎಂದು ಟೈಪ್ ಮಾಡಿ.",
+            lblGst: "ಮಾರಾಟದ ಮೇಲೆ GST %", lblComm: "ಕಮಿಷನ್ %", lblCac: "CAC (ಜಾಹೀರಾತು)", lblShip: "ಶಿಪ್ಪಿಂಗ್ (₹)", lblRetC: "ರಿಟರ್ನ್ ವೆಚ್ಚ (₹)",
             btnGuide: "ಶಿಪ್ಪಿಂಗ್ ದರಗಳ ಮಾಹಿತಿ", lblPkg: "ಪ್ಯಾಕೇಜಿಂಗ್ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ಉತ್ಪನ್ನದ ವೆಚ್ಚ (₹)", lblNetReal: "ನಿವ್ವಳ ನೈಜ ಲಾಭ",
-            badgeSummary: "ಸ್ಕೇಲ್ ಮೆಟ್ರಿಕ್ಸ್", titleMonthly: "ಮಾಸಿಕ ಸಾರಾಂಶ", lblOrders: "ಒಟ್ಟು ಆರ್ಡರ್‌ಗಳು", lblRto: "RTO %", lblRet: "ರಿಟರ್ನ್ %", lblNetMonth: "ನಿವ್ವಳ ಮಾಸಿಕ ಲಾಭ",
-            btnDownload: "ವರದಿಯನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ", modalTitle: "ಶಿಪ್ಪಿಂಗ್ ಮಾಹಿತಿ", slab: "ಸ್ಲ್ಯಾಬ್", local: "ಸ್ಥಳೀಯ", regional: "ಪ್ರಾದೇಶಿಕ", national: "ರಾಷ್ಟ್ರೀಯ", retTitle: "ರಿಟರ್ನ್ಸ್", retText: "RTO: ಉಚಿತ | ಗ್ರಾಹಕ ರಿಟರ್ನ್: ₹20–₹120+"
+            lblSuggest: "ಸೂಚಿಸಲಾದ ಬೆಲೆ:", badgeSummary: "ಸ್ಕೇಲ್ ಮೆಟ್ರಿಕ್ಸ್", titleMonthly: "ಮಾಸಿಕ ಸಾರಾಂಶ", lblOrders: "ಒಟ್ಟು ಆರ್ಡರ್‌ಗಳು",
+            lblRto: "RTO %", lblRet: "ರಿಟರ್ನ್ %", lblNetMonth: "ನಿವ್ವಳ ಮಾಸಿಕ ಲಾಭ", btnDownload: "ವರದಿ ಡೌನ್‌ಲೋಡ್",
+            modalTitle: "ಶಿಪ್ಪಿಂಗ್ ಮಾಹಿತಿ", slab: "ಸ್ಲ್ಯಾಬ್", local: "ಸ್ಥಳೀಯ", regional: "ಪ್ರಾದೇಶಿಕ", national: "ರಾಷ್ಟ್ರೀಯ", retTitle: "ರಿಟರ್ನ್ಸ್", retText: "RTO: ಉಚಿತ | ರಿಟರ್ನ್: ₹20-₹120+"
         },
         or: {
             subHeader: "ଉନ୍ନତ ଲାଭ ବିଶ୍ଳେଷକ", badgeMaster: "ମାଷ୍ଟର ଶିଟ୍", titleRealProfit: "ମିଶୋ ପ୍ରକୃତ ଲାଭ",
-            lblSp: "ବିକ୍ରୟ ମୂଲ୍ୟ (₹)", lblGst: "ବିକ୍ରୟ ଉପରେ GST %", lblComm: "କମିଶନ %", lblCac: "ବିଜ୍ଞାପନ ଖର୍ଚ୍ଚ", lblShip: "ସିପିଂ (₹)", lblRetC: "ରିଟର୍ନ ଖର୍ଚ୍ଚ (₹)",
+            lblSp: "ବିକ୍ରୟ ମୂଲ୍ୟ (₹)", lblTarget: "ଲକ୍ଷ୍ୟ ଲାଭ (₹)", tipTarget: "ପ୍ରତି ଅର୍ଡରରେ ଆପଣ କେତେ ଲାଭ ଚାହୁଁଛନ୍ତି ଲେଖନ୍ତୁ।",
+            lblGst: "ବିକ୍ରୟ ଉପରେ GST %", lblComm: "କମିଶନ %", lblCac: "ବିଜ୍ଞାପନ ଖର୍ଚ୍ଚ", lblShip: "ସିପିଂ (₹)", lblRetC: "ରିଟର୍ନ ଖର୍ଚ୍ଚ (₹)",
             btnGuide: "ସିପିଂ ଚାର୍ଜ ଗାଇଡ୍", lblPkg: "ପ୍ୟାକେଜିଂ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ଉତ୍ପାଦ ମୂଲ୍ୟ (₹)", lblNetReal: "ନିଟ୍ ପ୍ରକୃତ ଲାଭ",
-            badgeSummary: "ସ୍କେଲ ମେଟ୍ରିକ୍ସ", titleMonthly: "ମାସಿಕ ସାରାଂಶ", lblOrders: "ମୋଟ ଅର୍ଡର", lblRto: "RTO %", lblRet: "ରିଟର୍ନ %", lblNetMonth: "ନିଟ୍ ମାସିକ ଲାଭ",
-            btnDownload: "ରିପୋର୍ଟ ଡାଉନଲୋଡ୍ କରନ୍ତୁ", modalTitle: "ସିପିଂ ଗାଇଡ୍", slab: "ସ୍ଲାବ୍", local: "ସ୍ଥାନୀୟ", regional: "ଆଞ୍ಚଳିକ", national: "ଜାତୀୟ", retTitle: "ରିଟର୍ନ", retText: "RTO: ମାଗଣା | ଗ୍ରାହକ ରିଟର୍ନ: ₹୨୦-₹୧୨୦+"
+            lblSuggest: "ପରାମର୍ଶିତ ମୂଲ୍ୟ:", badgeSummary: "ସ୍କେଲ ମେଟ୍ରିକ୍ସ", titleMonthly: "ମାସಿಕ ସାରାଂଶ", lblOrders: "ମୋଟ ଅର୍ଡର",
+            lblRto: "RTO %", lblRet: "ରିଟର୍ନ %", lblNetMonth: "ନିଟ୍ ମାସಿಕ ଲାଭ", btnDownload: "ରିପୋର୍ଟ ଡାଉନଲୋଡ୍",
+            modalTitle: "ସିପିଂ ଗାଇଡ୍", slab: "ସ୍ଲାବ୍", local: "ସ୍ଥାନୀୟ", regional: "ଆଞ୍ଚଳିକ", national: "ଜାତୀୟ", retTitle: "ରିଟର୍ନ", retText: "RTO: ମାଗଣା | ରିଟର୍ନ: ₹୨୦-₹୧୨୦+"
         },
         ml: {
-            subHeader: "അഡ്വാൻസ്ഡ് ലാഭ വിശകലന ഉപകരണം", badgeMaster: "മാസ്റ്റർ ഷീറ്റ്", titleRealProfit: "മീഷോ യഥാർത്ഥ ലാഭം",
-            lblSp: "വിൽപന വില (₹)", lblGst: "ജിഎസ്ടി %", lblComm: "കമ്മീഷൻ %", lblCac: "പരസ്യ ചെലവ്", lblShip: "ഷിപ്പിംഗ് (₹)", lblRetC: "തിരിച്ചയക്കൽ ചെലവ് (₹)",
+            subHeader: "അഡ്വാൻസ്ഡ് ലാഭ വിശകലനം", badgeMaster: "മാസ്റ്റർ ഷീറ്റ്", titleRealProfit: "മീഷോ യഥാർത്ഥ ലാഭം",
+            lblSp: "വിൽപന വില (₹)", lblTarget: "ലക്ഷ്യ ലാഭം (₹)", tipTarget: "ഓരോ ഓർഡറിനും നിങ്ങൾക്ക് എത്ര ലാഭം വേണമെന്ന് ടൈപ്പ് ചെയ്യുക.",
+            lblGst: "ജിഎസ്ടി %", lblComm: "കമ്മീഷൻ %", lblCac: "പരസ്യ ചെലവ്", lblShip: "ഷിപ്പിംഗ് (₹)", lblRetC: "തിരിച്ചയക്കൽ ചെലവ് (₹)",
             btnGuide: "ഷിപ്പിംഗ് ചാർജ് ഗൈഡ്", lblPkg: "പാക്കേജിംഗ് (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ഉൽപ്പന്ന വില (₹)", lblNetReal: "യഥാർത്ഥ ലാഭം",
-            badgeSummary: "സ്കെയിൽ മെട്രിക്സ്", titleMonthly: "പ്രതിമാസ സംഗ്രഹം", lblOrders: "ആകെ ഓർഡറുകൾ", lblRto: "RTO %", lblRet: "തിരിച്ചയക്കൽ %", lblNetMonth: "പ്രതിമാസ ലാഭം",
-            btnDownload: "റിപ്പോർട്ട് ഡൗൺലോഡ് ചെയ്യുക", modalTitle: "ഷിപ്പിംഗ് ഗൈഡ്", slab: "സ്ലാബ്", local: "ലോക്കൽ", regional: "റീജിയണൽ", national: "നാഷണൽ", retTitle: "തിരിച്ചയക്കൽ", retText: "RTO: സൗജന്യം | കസ്റ്റമർ റിട്ടേൺ: ₹20–₹120+"
+            lblSuggest: "നിർദ്ദേശിച്ച വില:", badgeSummary: "സ്കെയിൽ മെട്രിക്സ്", titleMonthly: "പ്രതിമാസ സംഗ്രഹം", lblOrders: "ആകെ ഓർഡറുകൾ",
+            lblRto: "RTO %", lblRet: "തിരിച്ചയക്കൽ %", lblNetMonth: "പ്രതിമാസ ലാഭം", btnDownload: "റിപ്പോർട്ട്",
+            modalTitle: "ഷിപ്പിംഗ് ഗൈഡ്", slab: "സ്ലാബ്", local: "ലോക്കൽ", regional: "റീജിയണൽ", national: "നാഷണൽ", retTitle: "തിരിച്ചയക്കൽ", retText: "RTO: സൗജന്യം | റിട്ടേൺ: ₹20-₹120+"
         }
     };
 
@@ -454,12 +504,15 @@
         const lang = document.getElementById('langSelect').value;
         const dict = translations[lang] || translations.en;
         
+        // Update all data-key elements
         document.querySelectorAll('[data-key]').forEach(el => {
             const key = el.getAttribute('data-key');
             if(dict[key]) el.textContent = dict[key];
         });
         
-        ['subHeader','badgeMaster','titleRealProfit','btnGuide','lblNetReal','badgeSummary','titleMonthly','lblNetMonth','btnDownload','modalTitle','retTitle','retText'].forEach(id => {
+        // Update elements by specific ID
+        const ids = ['subHeader','badgeMaster','titleRealProfit','btnGuide','lblNetReal','badgeSummary','titleMonthly','lblNetMonth','btnDownload','modalTitle','retTitle','retText'];
+        ids.forEach(id => {
             const el = document.getElementById(id);
             if(el && dict[id]) el.textContent = dict[id];
         });
@@ -468,16 +521,20 @@
     function initParticles() {
         const container = document.getElementById('particle-container');
         container.innerHTML = '';
-        for(let i=0; i<30; i++) {
+        const particleCount = 40;
+        for(let i=0; i<particleCount; i++) {
             const p = document.createElement('div');
             p.className = 'particle';
-            const size = Math.floor(Math.random() * 6) + 4;
-            p.style.width = `${size}px`; p.style.height = `${size}px`;
+            const size = Math.floor(Math.random() * 8) + 4;
+            p.style.width = `${size}px`; 
+            p.style.height = `${size}px`;
+            
             p.style.setProperty('--x1', `${Math.random() * 100}vw`);
             p.style.setProperty('--y1', `${Math.random() * 100}vh`);
             p.style.setProperty('--x2', `${Math.random() * 100}vw`);
             p.style.setProperty('--y2', `${Math.random() * 100}vh`);
-            p.style.animation = `particle-anim ${25 + Math.random() * 40}s infinite alternate linear`;
+            
+            p.style.animation = `particle-anim ${30 + Math.random() * 40}s infinite alternate ease-in-out`;
             p.style.animationDelay = `-${Math.random() * 20}s`;
             container.appendChild(p);
         }
@@ -485,6 +542,7 @@
 
     function calculate() {
         const sp = parseFloat(document.getElementById('sp').value) || 0;
+        const targetProfit = parseFloat(document.getElementById('targetProfitInput').value) || 0;
         const gstSalePct = parseFloat(document.getElementById('gstSale').value) || 0;
         const commPct = parseFloat(document.getElementById('comm').value) || 0;
         const cac = parseFloat(document.getElementById('cac').value) || 0;
@@ -506,6 +564,12 @@
         
         document.getElementById('realProfit').textContent = `₹${realProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
         
+        const fixedCosts = cac + retCost + pkg + ship + tax + pc - itcOnProduct;
+        const denominator = 1 - (gstSalePct / (100 + gstSalePct)) - (commPct / 100);
+        const suggestedSp = (targetProfit + fixedCosts) / denominator;
+        
+        document.getElementById('suggestedSp').textContent = `₹${Math.ceil(suggestedSp).toLocaleString('en-IN')}`;
+
         const statusEmoji = document.getElementById('statusEmoji');
         if (realProfit >= 0) {
             document.body.style.background = 'var(--profit-bg)';
