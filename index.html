@@ -425,7 +425,7 @@
             lblSp: "विक्री किंमत (₹)", lblTarget: "लक्ष्य नफा (₹)", tipTarget: "प्रत्येक ऑर्डरमागे तुम्हाला किती नफा हवा आहे ते टाइप करा.",
             lblGst: "विक्रीवर GST %", lblComm: "कमीशन %", lblCac: "CAC (जाहिरात)", lblShip: "शिपिंग (₹)", lblRetC: "रिटर्न खर्च (₹)",
             btnGuide: "शिपिंग शुल्क मार्गदर्शक", lblPkg: "पॅकेजिंग (₹)", lblTax: "TCS/TDS (₹)", lblPc: "उत्पादन खर्च (₹)", lblNetReal: "निव्वळ वास्तविक नफा",
-            lblSuggest: "सुचवलेली किंमत:", badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक सारांश", lblOrders: "एकूण ऑर्डर",
+            lblSuggest: "सुचवलेली किंमत:", badgeSummary: "स्केल मेट्रिक्स", titleMonthly: "मासिक साराংশ", lblOrders: "एकूण ऑर्डर",
             lblRto: "RTO %", lblRet: "रिटर्न %", lblNetMonth: "निव्वळ मासिक नफा", btnDownload: "रिपोर्ट डाउनलोड करा",
             modalTitle: "शिपिंग मार्गदर्शक", slab: "स्लॅब", local: "स्थानिक", regional: "प्रादेशिक", national: "राष्ट्रीय", retTitle: "रिटर्न", retText: "RTO: मोफत | रिटर्न: ₹२०-₹१२०+"
         },
@@ -472,7 +472,7 @@
             btnGuide: "ಶಿಪ್ಪಿಂಗ್ ದರಗಳ ಮಾಹಿತಿ", lblPkg: "ಪ್ಯಾಕೇಜಿಂಗ್ (₹)", lblTax: "TCS/TDS (₹)", lblPc: "ಉತ್ಪನ್ನದ ವೆಚ್ಚ (₹)", lblNetReal: "ನಿವ್ವಳ ನೈಜ ಲಾಭ",
             lblSuggest: "ಸೂಚಿಸಲಾದ ಬೆಲೆ:", badgeSummary: "ಸ್ಕೇಲ್ ಮೆಟ್ರಿಕ್ಸ್", titleMonthly: "ಮಾಸಿಕ ಸಾರಾಂಶ", lblOrders: "ಒಟ್ಟು ಆರ್ಡರ್‌ಗಳು",
             lblRto: "RTO %", lblRet: "ರಿಟರ್ನ್ %", lblNetMonth: "ನಿವ್ವಳ ಮಾಸಿಕ ಲಾಭ", btnDownload: "ವರದಿ ಡೌನ್‌ಲೋಡ್",
-            modalTitle: "ಶಿಪ್ಪಿಂಗ್ ಮಾಹಿತಿ", slab: "ಸ್ಲ್ಯಾಬ್", local: "ಸ್ಥಳೀಯ", regional: "ಪ್ರಾದೇಶಿಕ", national: "ರಾಷ್ಟ್ರೀಯ", retTitle: "ರಿಟರ್ನ್ಸ್", retText: "RTO: ಉಚಿತ | ರಿಟರ್ನ್: ₹20-₹120+"
+            modalTitle: "ಶಿಪ್ಪಿಂಗ್ ಮಾಹಿತಿ", slab: "ಸ್ಲ್ಯಾಬ್", local: "ಸ್ಥಳೀಯ", regional: "ಪ್ರಾದೇಶಿಕ", national: "ರಾಷ್ಟรีย", retTitle: "ರಿಟರ್ನ್ಸ್", retText: "RTO: ಉಚಿತ | ರಿಟರ್ನ್: ₹20-₹120+"
         },
         or: {
             subHeader: "ଉନ୍ନତ ଲାଭ ବିଶ୍ଳେଷକ", badgeMaster: "ମାଷ୍ଟର ଶିଟ୍", titleRealProfit: "ମିଶୋ ପ୍ରକୃତ ଲାଭ",
@@ -494,6 +494,37 @@
         }
     };
 
+    // Store previous values for animation
+    let lastValues = {
+        suggestedSp: 0,
+        realProfit: 0,
+        netMonthly: 0
+    };
+
+    function animateValue(id, start, end, duration, decimal = false) {
+        const obj = document.getElementById(id);
+        if (!obj) return;
+        
+        let startTime = null;
+
+        function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            const current = progress * (end - start) + start;
+            
+            const formatted = decimal 
+                ? current.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+                : Math.round(current).toLocaleString('en-IN');
+            
+            obj.textContent = `₹${formatted}`;
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        }
+        window.requestAnimationFrame(step);
+    }
+
     function toggleTooltip(trigger) {
         const wasActive = trigger.classList.contains('active');
         document.querySelectorAll('.info-trigger').forEach(t => t.classList.remove('active'));
@@ -504,13 +535,11 @@
         const lang = document.getElementById('langSelect').value;
         const dict = translations[lang] || translations.en;
         
-        // Update all data-key elements
         document.querySelectorAll('[data-key]').forEach(el => {
             const key = el.getAttribute('data-key');
             if(dict[key]) el.textContent = dict[key];
         });
         
-        // Update elements by specific ID
         const ids = ['subHeader','badgeMaster','titleRealProfit','btnGuide','lblNetReal','badgeSummary','titleMonthly','lblNetMonth','btnDownload','modalTitle','retTitle','retText'];
         ids.forEach(id => {
             const el = document.getElementById(id);
@@ -528,12 +557,10 @@
             const size = Math.floor(Math.random() * 8) + 4;
             p.style.width = `${size}px`; 
             p.style.height = `${size}px`;
-            
             p.style.setProperty('--x1', `${Math.random() * 100}vw`);
             p.style.setProperty('--y1', `${Math.random() * 100}vh`);
             p.style.setProperty('--x2', `${Math.random() * 100}vw`);
             p.style.setProperty('--y2', `${Math.random() * 100}vh`);
-            
             p.style.animation = `particle-anim ${30 + Math.random() * 40}s infinite alternate ease-in-out`;
             p.style.animationDelay = `-${Math.random() * 20}s`;
             container.appendChild(p);
@@ -562,14 +589,20 @@
         
         const realProfit = sp - gstOnSale - commission - cac - retCost - pkg - ship - tax - pc + itcOnProduct;
         
-        document.getElementById('realProfit').textContent = `₹${realProfit.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        // Rolling Animation for Net Real Profit
+        animateValue('realProfit', lastValues.realProfit, realProfit, 400, true);
+        lastValues.realProfit = realProfit;
         
+        // Reverse Calculation for Suggested Price
         const fixedCosts = cac + retCost + pkg + ship + tax + pc - itcOnProduct;
         const denominator = 1 - (gstSalePct / (100 + gstSalePct)) - (commPct / 100);
         const suggestedSp = (targetProfit + fixedCosts) / denominator;
         
-        document.getElementById('suggestedSp').textContent = `₹${Math.ceil(suggestedSp).toLocaleString('en-IN')}`;
+        // Rolling Animation for Suggested Price
+        animateValue('suggestedSp', lastValues.suggestedSp, suggestedSp, 400, false);
+        lastValues.suggestedSp = suggestedSp;
 
+        // UI State Updates
         const statusEmoji = document.getElementById('statusEmoji');
         if (realProfit >= 0) {
             document.body.style.background = 'var(--profit-bg)';
@@ -585,7 +618,10 @@
 
         const netDelivered = totalOrders * (1 - (rtoPct + retPct)/100);
         const netMonthlyProfit = netDelivered * realProfit;
-        document.getElementById('netMonthly').textContent = `₹${Math.round(netMonthlyProfit).toLocaleString('en-IN')}`;
+        
+        // Rolling Animation for Net Monthly Profit
+        animateValue('netMonthly', lastValues.netMonthly, netMonthlyProfit, 400, false);
+        lastValues.netMonthly = netMonthlyProfit;
     }
 
     function openModal() { document.getElementById('shippingModal').style.display = 'flex'; }
